@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pasarela de Pago Express</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans p-4 min-h-screen flex flex-col justify-between">
+
+    <!-- Encabezado -->
+    <div class="text-center py-3">
+        <div class="inline-block p-2.5 bg-emerald-500/10 text-emerald-400 rounded-full mb-1 text-xl">💳</div>
+        <h1 class="text-lg font-bold">Selecciona tu Método de Pago</h1>
+        <p class="text-xs text-slate-400">Elige cómo deseas realizar tu transacción</p>
+    </div>
+
+    <!-- Opciones de Métodos de Pago -->
+    <div class="space-y-2.5 my-2">
+        <!-- Opción 1: USDT / Binance -->
+        <div onclick="seleccionarMetodo('usdt')" id="card-usdt" class="metodo-card border-2 border-emerald-500 bg-slate-900 rounded-xl p-3 cursor-pointer transition-all">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <span class="text-xl">🪙</span>
+                    <div>
+                        <h2 class="font-semibold text-sm">USDT (Binance / Cripto)</h2>
+                        <p class="text-[10px] text-slate-400">Red TRC20 / Binance Pay</p>
+                    </div>
+                </div>
+                <span class="text-[10px] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded">Automático</span>
+            </div>
+        </div>
+
+        <!-- Opción 2: Pago Móvil -->
+        <div onclick="seleccionarMetodo('pago_movil')" id="card-pago_movil" class="metodo-card border-2 border-slate-800 bg-slate-900/50 rounded-xl p-3 cursor-pointer transition-all">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <span class="text-xl">📱</span>
+                    <div>
+                        <h2 class="font-semibold text-sm">Pago Móvil Nacional</h2>
+                        <p class="text-[10px] text-slate-400">Bs. a tasa oficial</p>
+                    </div>
+                </div>
+                <span class="text-[10px] font-bold text-slate-400 bg-slate-800 px-2 py-0.5 rounded">Local</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sección Dinámica según el método elegido -->
+    <div id="info-pago" class="bg-slate-900/80 border border-slate-800 rounded-xl p-3 my-2 text-xs">
+        <!-- Contenido por defecto (USDT) -->
+        <div id="detalles-usdt">
+            <p class="font-semibold text-emerald-400 mb-1">Instrucciones USDT:</p>
+            <p class="text-slate-300 text-[11px] mb-2">Envía el monto exacto a la siguiente wallet:</p>
+            <div class="bg-slate-950 p-2 rounded border border-slate-800 text-[10px] font-mono select-all text-slate-300 break-all">
+                TYourBinanceWalletAddressHere123456
+            </div>
+        </div>
+
+        <!-- Contenido para Pago Móvil (Oculto al inicio) -->
+        <div id="detalles-pago_movil" class="hidden">
+            <p class="font-semibold text-emerald-400 mb-1">Datos de Pago Móvil:</p>
+            <p class="text-slate-300 text-[11px]"><strong>Banco:</strong> Banco Mercantil (0105)</p>
+            <p class="text-slate-300 text-[11px]"><strong>Teléfono:</strong> 0412-1234567</p>
+            <p class="text-slate-300 text-[11px] mb-2"><strong>C.I:</strong> V-12.345.678</p>
+            
+            <label class="block text-[11px] text-slate-400 mt-2 mb-1">Número de Referencia (últimos 4 u 6 dígitos):</label>
+            <input type="text" id="referencia" placeholder="Ej: 4589" class="w-full bg-slate-950 border border-slate-800 rounded p-2 text-xs text-slate-100 focus:outline-none focus:border-emerald-500">
+        </div>
+    </div>
+
+    <!-- Monto -->
+    <div class="my-2">
+        <label class="block text-[11px] text-slate-400 mb-1">Monto a Pagar ($USD):</label>
+        <input type="number" id="monto" value="15" class="w-full bg-slate-900 border border-slate-800 rounded-lg p-2 text-xs font-bold text-emerald-400 focus:outline-none focus:border-emerald-500">
+    </div>
+
+    <!-- Botón de Envío -->
+    <div class="mt-2">
+        <button onclick="enviarPago()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-3 rounded-xl text-center text-xs shadow-lg transition-all">
+            Reportar Pago Realizado
+        </button>
+    </div>
+
+    <script>
+        let tg = window.Telegram.WebApp;
+        tg.expand();
+
+        let metodoActual = 'usdt';
+
+        function seleccionarMetodo(metodo) {
+            metodoActual = metodo;
+            
+            // Cambiar bordes de tarjetas
+            document.querySelectorAll('.metodo-card').forEach(card => {
+                card.classList.remove('border-emerald-500', 'bg-slate-900');
+                card.classList.add('border-slate-800', 'bg-slate-900/50');
+            });
+
+            const seleccionada = document.getElementById(`card-${metodo}`);
+            seleccionada.classList.remove('border-slate-800', 'bg-slate-900/50');
+            seleccionada.classList.add('border-emerald-500', 'bg-slate-900');
+
+            // Mostrar u ocultar detalles correspondientes
+            if (metodo === 'usdt') {
+                document.getElementById('detalles-usdt').classList.remove('hidden');
+                document.getElementById('detalles-pago_movil').classList.add('hidden');
+            } else {
+                document.getElementById('detalles-usdt').classList.add('hidden');
+                document.getElementById('detalles-pago_movil').classList.remove('hidden');
+            }
+        }
+
+        function enviarPago() {
+            const monto = document.getElementById('monto').value;
+            let referencia = 'N/A';
+
+            if (metodoActual === 'pago_movil') {
+                referencia = document.getElementById('referencia').value || 'Sin referencia';
+            }
+
+            const datosReporte = {
+                metodo: metodoActual,
+                monto: monto,
+                referencia: referencia,
+                usuario: tg.initDataUnsafe?.user?.username || 'Usuario'
+            };
+
+            // Envía la información empaquetada de vuelta al bot de Telegram
+            tg.sendData(JSON.stringify(datosReporte));
+        }
+    </script>
+</body>
+</html>

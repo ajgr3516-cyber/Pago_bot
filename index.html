@@ -1,135 +1,342 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pasarela de Pago Express</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>El Rincón del Trader VIP</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    * { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+    }
+    body { 
+      background-color: #0f172a; 
+      color: #f8fafc; 
+      display: flex; 
+      justify-content: center; 
+      padding: 16px; 
+      min-height: 100vh; 
+    }
+    .container { 
+      width: 100%; 
+      max-width: 420px; 
+    }
+    
+    /* Targeta Principal / Presentación VIP */
+    .card { 
+      background: #1e293b; 
+      border-radius: 20px; 
+      padding: 24px; 
+      border: 1px solid #334155; 
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5); 
+      margin-bottom: 16px; 
+    }
+    .badge { 
+      background: linear-gradient(135deg, #10b981, #059669); 
+      color: #fff; 
+      font-size: 11px; 
+      font-weight: 800; 
+      padding: 6px 12px; 
+      border-radius: 20px; 
+      text-transform: uppercase; 
+      letter-spacing: 0.5px;
+      display: inline-block; 
+      margin-bottom: 14px; 
+    }
+    .title { 
+      font-size: 24px; 
+      font-weight: 800; 
+      color: #fff; 
+      margin-bottom: 8px; 
+      line-height: 1.2;
+    }
+    .subtitle {
+      color: #38bdf8;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .description { 
+      font-size: 14px; 
+      color: #94a3b8; 
+      line-height: 1.5; 
+      margin-bottom: 20px; 
+    }
+    
+    .benefits-title {
+      font-size: 13px;
+      text-transform: uppercase;
+      color: #64748b;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+
+    .benefits { 
+      list-style: none; 
+      margin-bottom: 24px; 
+    }
+    .benefits li { 
+      font-size: 14px; 
+      color: #cbd5e1; 
+      margin-bottom: 12px; 
+      display: flex; 
+      align-items: flex-start; 
+      gap: 10px; 
+      line-height: 1.4;
+    }
+    .benefits li span {
+      font-size: 16px;
+    }
+    
+    .price-tag { 
+      background: #0f172a; 
+      border-radius: 14px; 
+      padding: 16px; 
+      text-align: center; 
+      border: 1px solid #334155; 
+      margin-bottom: 20px; 
+    }
+    .price-label { 
+      font-size: 12px; 
+      color: #94a3b8; 
+      text-transform: uppercase; 
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .price-value { 
+      font-size: 32px; 
+      font-weight: 800; 
+      color: #10b981; 
+    }
+    .price-sub {
+      font-size: 11px;
+      color: #64748b;
+      margin-top: 2px;
+    }
+    
+    /* Botones */
+    .btn-primary { 
+      width: 100%; 
+      background: linear-gradient(135deg, #10b981, #059669); 
+      color: #ffffff; 
+      font-weight: 800; 
+      font-size: 16px; 
+      border: none; 
+      padding: 16px; 
+      border-radius: 14px; 
+      cursor: pointer; 
+      transition: all 0.2s; 
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    }
+    .btn-primary:active { 
+      transform: scale(0.98); 
+      opacity: 0.9; 
+    Pago */
+    .payment-option { 
+      background: #0f172a; 
+      border: 1px solid #334155; 
+      border-radius: 12px; 
+      padding: 14px; 
+      margin-bottom: 12px; }
+    .btn-secondary { 
+      background: transparent; 
+      color: #94a3b8; 
+      border: 1px solid #334155; 
+      padding: 8px 14px; 
+      border-radius: 10px; 
+      font-size: 12px; 
+      font-weight: 600;
+      cursor: pointer; 
+      margin-bottom: 20px; 
+    }
+    
+    /* Estilos Pasarela de 
+      cursor: pointer; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      transition: all 0.2s;
+    }
+    .payment-option.active { 
+      border-color: #10b981; 
+      background: rgba(16, 185, 129, 0.08); 
+    }
+    .payment-title { 
+      font-weight: 700; 
+      font-size: 15px; 
+    }
+    .payment-sub { 
+      font-size: 12px; 
+      color: #94a3b8; 
+    }
+    
+    .instruction-box { 
+      background: #0f172a; 
+      border-radius: 12px; 
+      padding: 14px; 
+      border: 1px dashed #334155; 
+      margin-top: 16px; 
+      font-size: 13px; 
+      color: #cbd5e1; 
+      line-height: 1.6;
+    }
+    .wallet-code { 
+      background: #1e293b; 
+      padding: 10px; 
+      border-radius: 8px; 
+      font-family: monospace; 
+      font-size: 11px; 
+      word-break: break-all; 
+      margin-top: 8px; 
+      color: #38bdf8; 
+      border: 1px solid #334155; 
+    }
+    
+    input { 
+      width: 100%; 
+      background: #0f172a; 
+      border: 1px solid #334155; 
+      color: #fff; 
+      padding: 12px; 
+      border-radius: 10px; 
+      margin-top: 6px; 
+      font-size: 14px; 
+      outline: none;
+    }
+    input:focus {
+      border-color: #10b981;
+    }
+  </style>
 </head>
-<body class="bg-slate-950 text-slate-100 font-sans p-4 min-h-screen flex flex-col justify-between">
+<body>
 
-    <!-- Encabezado -->
-    <div class="text-center py-3">
-        <div class="inline-block p-2.5 bg-emerald-500/10 text-emerald-400 rounded-full mb-1 text-xl">💳</div>
-        <h1 class="text-lg font-bold">Selecciona tu Método de Pago</h1>
-        <p class="text-xs text-slate-400">Elige cómo deseas realizar tu transacción</p>
+<div class="container">
+
+  <!-- ================= PANTALLA 1: PRESENTACIÓN VIP ================= -->
+  <div id="pantalla-catalogo" class="card">
+    <span class="badge">🔥 Acceso Vitalicio</span>
+    <h1 class="title">Canal VIP de Trading</h1>
+    <div class="subtitle">El Rincón del Trader</div>
+    <p class="description">Únete a nuestra comunidad privada de señales de alta precisión y análisis técnico en tiempo real.</p>
+    
+    <div class="benefits-title">¿Qué incluye tu acceso?</div>
+    <ul class="benefits">
+      <li><span>🎯</span> <strong>Señales Diarias:</strong> Entradas en Gold (XAUUSD) y US30 con Stop Loss y Take Profit.</li>
+      <li><span>📊</span> <strong>Estrategia Clara:</strong> Análisis basados en Price Action y Smart Money Concepts (SMC).</li>
+      <li><span>🛡️</span> <strong>Gestión de Riesgo:</strong> Reglas claras de lotaje y preservación de capital.</li>
+      <li><span>⚡</span> <strong>Acceso Inmediato:</strong> Pago único sin mensualidades ni cobros recurrentes.</li>
+    </ul>
+
+    <div class="price-tag">
+      <div class="price-label">Membresía Completa</div>
+      <div class="price-value">$25 USD</div>
+      <div class="price-sub">Pago único • Acceso de por vida</div>
     </div>
 
-    <!-- Opciones de Métodos de Pago -->
-    <div class="space-y-2.5 my-2">
-        <!-- Opción 1: USDT / Binance -->
-        <div onclick="seleccionarMetodo('usdt')" id="card-usdt" class="metodo-card border-2 border-emerald-500 bg-slate-900 rounded-xl p-3 cursor-pointer transition-all">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                    <span class="text-xl">🪙</span>
-                    <div>
-                        <h2 class="font-semibold text-sm">USDT (Binance / Cripto)</h2>
-                        <p class="text-[10px] text-slate-400">Red TRC20 / Binance Pay</p>
-                    </div>
-                </div>
-                <span class="text-[10px] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded">Automático</span>
-            </div>
-        </div>
+    <button class="btn-primary" onclick="irAPagar()">OBTENER ACCESO VIP ➔</button>
+  </div>
 
-        <!-- Opción 2: Pago Móvil -->
-        <div onclick="seleccionarMetodo('pago_movil')" id="card-pago_movil" class="metodo-card border-2 border-slate-800 bg-slate-900/50 rounded-xl p-3 cursor-pointer transition-all">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                    <span class="text-xl">📱</span>
-                    <div>
-                        <h2 class="font-semibold text-sm">Pago Móvil Nacional</h2>
-                        <p class="text-[10px] text-slate-400">Bs. a tasa oficial</p>
-                    </div>
-                </div>
-                <span class="text-[10px] font-bold text-slate-400 bg-slate-800 px-2 py-0.5 rounded">Local</span>
-            </div>
-        </div>
+
+  <!-- ================= PANTALLA 2: PASARELA DE PAGO ================= -->
+  <div id="pantalla-pago" class="card" style="display: none;">
+    <button class="btn-secondary" onclick="volverAlCatalogo()">⬅️ Volver a información</button>
+    
+    <h2 class="title" style="font-size: 18px; margin-bottom: 16px;">Selecciona tu Método de Pago</h2>
+
+    <!-- Opción USDT -->
+    <div class="payment-option active" id="opt-usdt" onclick="seleccionarMetodo('usdt')">
+      <div>
+        <div class="payment-title">🟡 USDT (Binance / Cripto)</div>
+        <div class="payment-sub">Red TRC20 / Binance Pay</div>
+      </div>
     </div>
 
-    <!-- Sección Dinámica según el método elegido -->
-    <div id="info-pago" class="bg-slate-900/80 border border-slate-800 rounded-xl p-3 my-2 text-xs">
-        <!-- Contenido por defecto (USDT) -->
-        <div id="detalles-usdt">
-            <p class="font-semibold text-emerald-400 mb-1">Instrucciones USDT:</p>
-            <p class="text-slate-300 text-[11px] mb-2">Envía el monto exacto a la siguiente wallet:</p>
-            <div class="bg-slate-950 p-2 rounded border border-slate-800 text-[10px] font-mono select-all text-slate-300 break-all">
-               TAq5FSzyfVkzsHXCwDtWPpissvTM7TXHiD
-            </div>
-        </div>
-
-        <!-- Contenido para Pago Móvil (Oculto al inicio) -->
-        <div id="detalles-pago_movil" class="hidden">
-            <p class="font-semibold text-emerald-400 mb-1">Datos de Pago Móvil:</p>
-            <p class="text-slate-300 text-[11px]"><strong>Banco:</strong> Banco VENEZUELA (0102)</p>
-            <p class="text-slate-300 text-[11px]"><strong>Teléfono:</strong> 0424-9090289</p>
-            <p class="text-slate-300 text-[11px] mb-2"><strong>C.I:</strong> V-18.451.548</p>
-            
-            <label class="block text-[11px] text-slate-400 mt-2 mb-1">Número de Referencia (últimos 4 u 6 dígitos):</label>
-            <input type="text" id="referencia" placeholder="Ej: 4589" class="w-full bg-slate-950 border border-slate-800 rounded p-2 text-xs text-slate-100 focus:outline-none focus:border-emerald-500">
-        </div>
+    <!-- Opción Pago Móvil -->
+    <div class="payment-option" id="opt-pm" onclick="seleccionarMetodo('pm')">
+      <div>
+        <div class="payment-title">📱 Pago Móvil Nacional</div>
+        <div class="payment-sub">Bs. a Tasa Oficial</div>
+      </div>
     </div>
 
-    <!-- Monto -->
-    <div class="my-2">
-        <label class="block text-[11px] text-slate-400 mb-1">Monto a Pagar ($USD):</label>
-        <input type="number" id="monto" value="15" class="w-full bg-slate-900 border border-slate-800 rounded-lg p-2 text-xs font-bold text-emerald-400 focus:outline-none focus:border-emerald-500">
+    <!-- Datos USDT -->
+    <div id="info-usdt" class="instruction-box">
+      <strong>Instrucciones USDT:</strong><br>
+      Envía el monto exacto (<strong>$25 USD</strong>) a la siguiente wallet:
+      <div class="wallet-code">TAq5FszyfVkzsHXCwDtWPpissTM7TXhiD</div>
     </div>
 
-    <!-- Botón de Envío -->
-    <div class="mt-2">
-        <button onclick="enviarPago()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-3 rounded-xl text-center text-xs shadow-lg transition-all">
-            Reportar Pago Realizado
-        </button>
+    <!-- Datos Pago Móvil -->
+    <div id="info-pm" class="instruction-box" style="display: none;">
+      <strong>Instrucciones Pago Móvil:</strong><br>
+      • <strong>Banco:</strong> Banesco (0134)<br>
+      • <strong>Teléfono:</strong> 0412-1234567<br>
+      • <strong>Cédula:</strong> V-12345678<br>
+      • <strong>Monto:</strong> Equivalente a $25 a tasa BCV oficial
     </div>
 
-    <script>
-        let tg = window.Telegram.WebApp;
-        tg.expand();
+    <!-- Formulario -->
+    <div style="margin-top: 20px;">
+      <label style="font-size: 12px; color: #94a3b8; font-weight: 600;">Monto a Pagar ($USD):</label>
+      <input type="text" id="monto" value="25" readonly style="color: #10b981; font-weight: bold; background: #0b1329;">
 
-        let metodoActual = 'usdt';
+      <label style="font-size: 12px; color: #94a3b8; font-weight: 600; margin-top: 12px; display: block;">Número de Referencia:</label>
+      <input type="text" id="referencia" placeholder="Ej: 84920194">
+    </div>
 
-        function seleccionarMetodo(metodo) {
-            metodoActual = metodo;
-            
-            // Cambiar bordes de tarjetas
-            document.querySelectorAll('.metodo-card').forEach(card => {
-                card.classList.remove('border-emerald-500', 'bg-slate-900');
-                card.classList.add('border-slate-800', 'bg-slate-900/50');
-            });
+    <button class="btn-primary" style="margin-top: 24px;" onclick="reportarPago()">REPORTAR PAGO REALIZADO</button>
+  </div>
 
-            const seleccionada = document.getElementById(`card-${metodo}`);
-            seleccionada.classList.remove('border-slate-800', 'bg-slate-900/50');
-            seleccionada.classList.add('border-emerald-500', 'bg-slate-900');
+</div>
 
-            // Mostrar u ocultar detalles correspondientes
-            if (metodo === 'usdt') {
-                document.getElementById('detalles-usdt').classList.remove('hidden');
-                document.getElementById('detalles-pago_movil').classList.add('hidden');
-            } else {
-                document.getElementById('detalles-usdt').classList.add('hidden');
-                document.getElementById('detalles-pago_movil').classList.remove('hidden');
-            }
-        }
+<script>
+  let tg = window.Telegram.WebApp;
+  tg.expand();
 
-        function enviarPago() {
-            const monto = document.getElementById('monto').value;
-            let referencia = 'N/A';
+  function irAPagar() {
+    document.getElementById('pantalla-catalogo').style.display = 'none';
+    document.getElementById('pantalla-pago').style.display = 'block';
+  }
 
-            if (metodoActual === 'pago_movil') {
-                referencia = document.getElementById('referencia').value || 'Sin referencia';
-            }
+  function volverAlCatalogo() {
+    document.getElementById('pantalla-pago').style.display = 'none';
+    document.getElementById('pantalla-catalogo').style.display = 'block';
+  }
 
-            const datosReporte = {
-                metodo: metodoActual,
-                monto: monto,
-                referencia: referencia,
-                usuario: tg.initDataUnsafe?.user?.username || 'Usuario'
-            };
+  function seleccionarMetodo(metodo) {
+    if (metodo === 'usdt') {
+      document.getElementById('opt-usdt').classList.add('active');
+      document.getElementById('opt-pm').classList.remove('active');
+      document.getElementById('info-usdt').style.display = 'block';
+      document.getElementById('info-pm').style.display = 'none';
+    } else {
+      document.getElementById('opt-pm').classList.add('active');
+      document.getElementById('opt-usdt').classList.remove('active');
+      document.getElementById('info-pm').style.display = 'block';
+      document.getElementById('info-usdt').style.display = 'none';
+    }
+  }
 
-            // Envía la información empaquetada de vuelta al bot de Telegram
-            tg.sendData(JSON.stringify(datosReporte));
-        }
-    </script>
+  function reportarPago() {
+    let ref = document.getElementById('referencia').value;
+    if (!ref.trim()) {
+      alert('Por favor ingresa el número de referencia del pago.');
+      return;
+    }
+    
+    tg.sendData(JSON.stringify({
+      producto: "Membresía VIP Trading",
+      monto: "25",
+      referencia: ref
+    }));
+    
+    tg.close();
+  }
+</script>
+
 </body>
 </html>

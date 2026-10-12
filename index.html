@@ -3,40 +3,39 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sublimación - Pedidos Express</title>
+  <title>Demostración - Telegram Mini App para Negocios</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
     body { background-color: #0f172a; color: #f8fafc; display: flex; justify-content: center; padding: 16px; min-height: 100vh; }
     .container { width: 100%; max-width: 420px; }
     
-    .card { background: #1e293b; border-radius: 16px; padding: 20px; border: 1px solid #334155; box-shadow: 0 10px 25px rgba(0,0,0,0.5); margin-bottom: 16px; }
-    .badge { background: linear-gradient(135deg, #0284c7, #0369a1); color: #fff; font-size: 11px; font-weight: bold; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; display: inline-block; margin-bottom: 12px; }
-    .title { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 8px; }
-    .description { font-size: 13px; color: #94a3b8; line-height: 1.4; margin-bottom: 16px; }
+    .card { background: #1e293b; border-radius: 16px; padding: 18px; border: 1px solid #334155; box-shadow: 0 10px 25px rgba(0,0,0,0.5); margin-bottom: 16px; }
+    .badge { background: linear-gradient(135deg, #0284c7, #0369a1); color: #fff; font-size: 10px; font-weight: bold; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; display: inline-block; margin-bottom: 10px; }
+    .title { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 6px; }
+    .subtitle { font-size: 12px; color: #94a3b8; line-height: 1.4; margin-bottom: 16px; }
     
-    /* Selector de Tallas */
-    .section-label { font-size: 12px; font-weight: 700; color: #38bdf8; text-transform: uppercase; margin-bottom: 8px; display: block; }
-    .size-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+    /* Lista de Funcionalidades */
+    .feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+    .feature-item { background: #0f172a; border: 1px solid #334155; border-radius: 10px; padding: 10px; font-size: 11px; color: #cbd5e1; }
+    .feature-item strong { color: #38bdf8; display: block; margin-bottom: 2px; font-size: 12px; }
     
-    .size-btn { background: #0f172a; border: 2px solid #334155; color: #cbd5e1; border-radius: 10px; padding: 10px; text-align: center; cursor: pointer; transition: all 0.2s; }
-    .size-btn.active { border-color: #38bdf8; background: #0369a122; color: #fff; }
-    .size-name { font-weight: bold; font-size: 14px; }
-    .size-price { font-size: 11px; color: #94a3b8; margin-top: 2px; }
+    /* Simulador de Carrito */
+    .demo-box { background: #0f172a; border: 1px solid #0284c7; border-radius: 12px; padding: 12px; margin-bottom: 14px; }
+    .demo-title { font-size: 13px; font-weight: 700; color: #38bdf8; margin-bottom: 8px; text-align: center; }
     
-    .price-tag { background: #0f172a; border-radius: 12px; padding: 12px; text-align: center; border: 1px solid #334155; margin-bottom: 20px; }
-    .price-label { font-size: 11px; color: #94a3b8; text-transform: uppercase; }
-    .price-value { font-size: 26px; font-weight: 800; color: #38bdf8; }
+    .item-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; background: #1e293b; padding: 8px; border-radius: 8px; font-size: 12px; }
+    .qty-btn { background: #0284c7; color: #fff; border: none; width: 24px; height: 24px; border-radius: 4px; font-weight: bold; cursor: pointer; }
     
-    .btn-primary { width: 100%; background: #0284c7; color: #fff; font-weight: 700; font-size: 15px; border: none; padding: 14px; border-radius: 12px; cursor: pointer; }
-    .btn-secondary { background: transparent; color: #94a3b8; border: 1px solid #334155; padding: 6px 12px; border-radius: 8px; font-size: 12px; cursor: pointer; margin-bottom: 16px; }
+    .total-row { font-size: 15px; font-weight: 800; color: #38bdf8; display: flex; justify-content: space-between; border-top: 1px dashed #334155; margin-top: 8px; padding-top: 8px; }
     
+    .btn-primary { width: 100%; background: #0284c7; color: #fff; font-weight: 700; font-size: 14px; border: none; padding: 14px; border-radius: 12px; cursor: pointer; margin-top: 10px; }
+    .btn-secondary { background: transparent; color: #94a3b8; border: 1px solid #334155; padding: 6px 12px; border-radius: 8px; font-size: 12px; cursor: pointer; margin-bottom: 14px; }
+    .btn-whatsapp { background: #22c55e; color: #fff; font-weight: 700; font-size: 14px; border: none; padding: 14px; border-radius: 12px; cursor: pointer; width: 100%; margin-top: 10px; text-decoration: none; display: block; text-align: center; }
+
     /* Pasarela */
-    .payment-option { background: #0f172a; border: 1px solid #334155; border-radius: 12px; padding: 12px; margin-bottom: 10px; cursor: pointer; }
-    .payment-option.active { border-color: #0284c7; background: #0369a122; }
-    .instruction-box { background: #0f172a; border-radius: 12px; padding: 12px; border: 1px dashed #334155; margin-top: 12px; font-size: 12px; color: #cbd5e1; }
+    .instruction-box { background: #0f172a; border-radius: 12px; padding: 12px; border: 1px dashed #334155; margin-top: 10px; font-size: 12px; color: #cbd5e1; }
     .wallet-code { background: #1e293b; padding: 8px; border-radius: 6px; font-family: monospace; font-size: 11px; word-break: break-all; margin-top: 6px; color: #38bdf8; }
-    
     input { width: 100%; background: #0f172a; border: 1px solid #334155; color: #fff; padding: 10px; border-radius: 8px; margin-top: 6px; font-size: 13px; }
   </style>
 </head>
@@ -44,75 +43,106 @@
 
 <div class="container">
 
-  <!-- ================= PANTALLA 1: PRODUCTO Y TALLAS ================= -->
-  <div id="pantalla-producto" class="card">
-    <span class="badge">Personalización Premium</span>
-    <h1 class="title">Franela Sublimada 🎨</h1>
-    <p class="description">Sublimación en tela microperforada o muselina de alta calidad. Diseño 100% personalizado.</p>
-    
-    <span class="section-label">Selecciona la Talla:</span>
-    <div class="size-grid">
-      <div class="size-btn active" id="btn-nino" onclick="seleccionarTalla('Niño (4 a 14)', 6, 'btn-nino')">
-        <div class="size-name">Niño</div>
-        <div class="size-price">$6.00</div>
+  <!-- ================= PANTALLA 1: PRESENTACIÓN Y DEMO DEL CATÁLOGO ================= -->
+  <div id="pantalla-presentacion" class="card">
+    <span class="badge">Demo Interactivo para Negocios</span>
+    <h1 class="title">Tu Tienda Digital en Telegram 🚀</h1>
+    <p class="subtitle">Transforma tu cuenta de Telegram en un sistema de ventas automatizado sin pagar comisiones por intermediarios.</p>
+
+    <!-- Características del Sistema -->
+    <div class="feature-grid">
+      <div class="feature-item">
+        <strong>🛍️ Catálogo Activo</strong>
+        Muestra tus productos con fotos, precios y variantes.
       </div>
-      <div class="size-btn" id="btn-sml" onclick="seleccionarTalla('S / M / L', 8, 'btn-sml')">
-        <div class="size-name">S / M / L</div>
-        <div class="size-price">$8.00</div>
+      <div class="feature-item">
+        <strong>🧮 Carrito Dinámico</strong>
+        Calcula totales y precios por talla/modelo al instante.
       </div>
-      <div class="size-btn" id="btn-xl" onclick="seleccionarTalla('XL / XXL', 10, 'btn-xl')">
-        <div class="size-name">XL / XXL</div>
-        <div class="size-price">$10.00</div>
+      <div class="feature-item">
+        <strong>💳 Pasarela Integrada</strong>
+        Recibe Pago Móvil en Bs., USDT, Zelle y más.
+      </div>
+      <div class="feature-item">
+        <strong>📲 Notificación Directa</strong>
+        El reporte de pago llega directamente a tu Telegram.
       </div>
     </div>
 
-    <div class="price-tag">
-      <div class="price-label">Total a Pagar (<span id="txt-talla">Niño (4 a 14)</span>)</div>
-      <div class="price-value" id="txt-precio">$6.00 USD</div>
+    <!-- Probador Interactivo -->
+    <div class="demo-box">
+      <div class="demo-title">⚡ Prueba el Simulador de Pedido:</div>
+      
+      <div class="item-row">
+        <span>Franela Personalizada ($8.00)</span>
+        <div>
+          <button class="qty-btn" onclick="cambiarCant('cant-1', -1, 8)">-</button>
+          <span id="cant-1" style="margin: 0 8px; font-weight: bold;">1</span>
+          <button class="qty-btn" onclick="cambiarCant('cant-1', 1, 8)">+</button>
+        </div>
+      </div>
+
+      <div class="item-row">
+        <span>Insignia Escolar ($1.50)</span>
+        <div>
+          <button class="qty-btn" onclick="cambiarCant('cant-2', -1, 1.5)">-</button>
+          <span id="cant-2" style="margin: 0 8px; font-weight: bold;">2</span>
+          <button class="qty-btn" onclick="cambiarCant('cant-2', 1, 1.5)">+</button>
+        </div>
+      </div>
+
+      <div class="total-row">
+        <span>TOTAL CALCULADO:</span>
+        <span id="total-demo">$11.00 USD</span>
+      </div>
     </div>
 
-    <button class="btn-primary" onclick="irAPagar()">PROCEDER AL PAGO ➔</button>
+    <button class="btn-primary" onclick="irAPasarelaDemo()">PROBAR PASARELA DE PAGO ➔</button>
   </div>
 
 
-  <!-- ================= PANTALLA 2: PASARELA DE PAGO ================= -->
-  <div id="pantalla-pago" class="card" style="display: none;">
-    <button class="btn-secondary" onclick="volverAlProducto()">⬅️ Cambiar Talla</button>
+  <!-- ================= PANTALLA 2: PASARELA Y OFERTA DE VENTA ================= -->
+  <div id="pantalla-pasarela" class="card" style="display: none;">
+    <button class="btn-secondary" onclick="volverAPresentacion()">⬅️ Volver a la Muestra</button>
     
-    <h2 class="title" style="font-size: 16px; margin-bottom: 12px;">Metodología de Pago</h2>
+    <h2 class="title" style="font-size: 16px;">Pasarela de Pago (Vista del Cliente)</h2>
+    <p class="subtitle" style="margin-bottom: 10px;">Así es como tus clientes enviarán sus comprobantes de pago:</p>
 
-    <div class="payment-option active" id="opt-pm" onclick="seleccionarMetodo('pm')">
-      <div style="font-weight: 600; font-size: 14px;">📱 Pago Móvil (Bs.)</div>
-      <div style="font-size: 11px; color: #94a3b8;">Tasa Oficial del Día</div>
+    <div class="instruction-box">
+      <strong>Pedido de Prueba:</strong>
+      <div id="resumen-demo-texto" style="margin-top: 4px; font-weight: bold; color: #38bdf8;">1x Franela + 2x Insignia = $11.00 USD</div>
     </div>
 
-    <div class="payment-option" id="opt-usdt" onclick="seleccionarMetodo('usdt')">
-      <div style="font-weight: 600; font-size: 14px;">🟡 USDT (Binance Pay)</div>
-      <div style="font-size: 11px; color: #94a3b8;">Red TRC20 / Pay ID</div>
+    <div class="instruction-box" style="margin-top: 10px;">
+      <strong>Datos de Pago Móvil del Negocio:</strong><br>
+      • Banco: Banco de Venezuela (0102)<br>
+      • Teléfono: 0424-9090289<br>
+      • Cédula: V-18451548<br>
+      • Monto en Bs. según tasa oficial del día
     </div>
 
-    <div id="info-pm" class="instruction-box">
-      <strong>Datos Pago Móvil:</strong><br>
-      • Banco: Banesco (0134)<br>
-      • Teléfono: 0412-1234567<br>
-      • Cédula: V-12345678<br>
-      • Monto: En Bs. según tasa oficial
-    </div>
-
-    <div id="info-usdt" class="instruction-box" style="display: none;">
-      <strong>Dirección Binance USDT:</strong>
+    <div class="instruction-box" style="margin-top: 10px;">
+      <strong>USDT Binance Pay:</strong>
       <div class="wallet-code">TAq5FszyfVkzsHXCwDtWPpissTM7TXhiD</div>
     </div>
 
-    <div style="margin-top: 14px;">
-      <label style="font-size: 11px; color: #94a3b8;">Resumen del Pedido:</label>
-      <input type="text" id="resumen-pedido" value="Franela Sublimada - Talla Niño ($6.00 USD)" readonly style="color: #38bdf8; font-weight: bold;">
-
-      <label style="font-size: 11px; color: #94a3b8; margin-top: 8px; display: block;">Número de Referencia de Pago:</label>
+    <div style="margin-top: 12px;">
+      <label style="font-size: 11px; color: #94a3b8;">Número de Referencia (Simulación):</label>
       <input type="text" id="referencia" placeholder="Ej: 948201">
     </div>
 
-    <button class="btn-primary" style="margin-top: 16px;" onclick="reportarPago()">Enviar Comprobante</button>
+    <button class="btn-primary" style="margin-top: 12px;" onclick="reportarDemo()">Enviar Comprobante de Prueba</button>
+
+    <!-- Bloque de Venta del Servicio -->
+    <div style="margin-top: 24px; border-top: 1px dashed #334155; padding-top: 16px; text-align: center;">
+      <span class="badge" style="background: linear-gradient(135deg, #16a34a, #15803d);">¿Te gusta este sistema?</span>
+      <h3 style="font-size: 15px; font-weight: bold; color: #fff; margin-bottom: 4px;">¡Adquiere la Mini App para tu Negocio!</h3>
+      <p style="font-size: 11px; color: #94a3b8; margin-bottom: 10px;">Instalación completa personalizada con tus productos, precios y métodos de pago.</p>
+      
+      <a href="https://wa.me/584249090289?text=Hola,%20probé%20la%20Mini%20App%20demo%20y%20quiero%20información%20para%20mi%20negocio" target="_blank" class="btn-whatsapp">
+        💬 Solicitar Mi Mini App por WhatsApp
+      </a>
+    </div>
   </div>
 
 </div>
@@ -121,58 +151,44 @@
   let tg = window.Telegram.WebApp;
   tg.expand();
 
-  let tallaSeleccionada = "Niño (4 a 14)";
-  let precioActual = 6;
+  let cant1 = 1;
+  let cant2 = 2;
+  let totalCalculado = 11.00;
 
-  function seleccionarTalla(talla, precio, btnId) {
-    tallaSeleccionada = talla;
-    precioActual = precio;
-
-    // Actualiza botones activos
-    document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById(btnId).classList.add('active');
-
-    // Actualiza textos
-    document.getElementById('txt-talla').innerText = talla;
-    document.getElementById('txt-precio').innerText = `$${precio}.00 USD`;
-    document.getElementById('resumen-pedido').value = `Franela Sublimada - ${talla} ($${precio}.00 USD)`;
-  }
-
-  function irAPagar() {
-    document.getElementById('pantalla-producto').style.display = 'none';
-    document.getElementById('pantalla-pago').style.display = 'block';
-  }
-
-  function volverAlProducto() {
-    document.getElementById('pantalla-pago').style.display = 'none';
-    document.getElementById('pantalla-producto').style.display = 'block';
-  }
-
-  function seleccionarMetodo(metodo) {
-    if (metodo === 'pm') {
-      document.getElementById('opt-pm').classList.add('active');
-      document.getElementById('opt-usdt').classList.remove('active');
-      document.getElementById('info-pm').style.display = 'block';
-      document.getElementById('info-usdt').style.display = 'none';
+  function cambiarCant(id, delta, precio) {
+    if (id === 'cant-1') {
+      cant1 = Math.max(0, cant1 + delta);
+      document.getElementById('cant-1').innerText = cant1;
     } else {
-      document.getElementById('opt-usdt').classList.add('active');
-      document.getElementById('opt-pm').classList.remove('active');
-      document.getElementById('info-usdt').style.display = 'block';
-      document.getElementById('info-pm').style.display = 'none';
+      cant2 = Math.max(0, cant2 + delta);
+      document.getElementById('cant-2').innerText = cant2;
     }
+    
+    totalCalculado = (cant1 * 8) + (cant2 * 1.5);
+    document.getElementById('total-demo').innerText = `$${totalCalculado.toFixed(2)} USD`;
+    document.getElementById('resumen-demo-texto').innerText = `${cant1}x Franela + ${cant2}x Insignia = $${totalCalculado.toFixed(2)} USD`;
   }
 
-  function reportarPago() {
+  function irAPasarelaDemo() {
+    document.getElementById('pantalla-presentacion').style.display = 'none';
+    document.getElementById('pantalla-pasarela').style.display = 'block';
+  }
+
+  function volverAPresentacion() {
+    document.getElementById('pantalla-pasarela').style.display = 'none';
+    document.getElementById('pantalla-presentacion').style.display = 'block';
+  }
+
+  function reportarDemo() {
     let ref = document.getElementById('referencia').value;
     if (!ref) {
-      alert('Por favor ingresa la referencia de pago');
+      alert('Por favor ingresa un número de referencia ficticio para probar');
       return;
     }
     
     tg.sendData(JSON.stringify({
-      producto: "Franela Sublimada",
-      talla: tallaSeleccionada,
-      monto: precioActual,
+      tipo: "DEMO_PRUEBA",
+      monto: totalCalculado,
       referencia: ref
     }));
     

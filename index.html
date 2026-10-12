@@ -174,7 +174,7 @@
     <div class="info-card">
       <label style="font-size: 12px; color: #94a3b8; display: block;">Número de Referencia (Simulación):</label>
       <input type="text" id="referencia" placeholder="Ej: 948201">
-      <button class="btn-main" id="btn-enviar-pago" style="margin-top: 12px;" onclick="enviarNotificacionTelegram()">Enviar Reporte de Pago</button>
+      <button class="btn-main" id="btn-enviar-pago" style="margin-top: 12px;" onclick="enviarReporteTelegram()">Enviar Reporte de Pago</button>
     </div>
 
     <!-- Llamado a la Acción Comercial -->
@@ -194,10 +194,6 @@
 
     let total = 0;
     let resumenTexto = "";
-
-    // CONFIGURACIÓN REAL CON TU BOT TOKEN Y TU CHAT ID
-    const BOT_TOKEN = "8978563653:AAEnVxi9w_z2RTVnEjfPfY870LF66lqjn_M";
-    const CHAT_ID = "6009706656";
 
     function cambiarPestana(idPestana, btn) {
       document.getElementById('pestana-inicio').style.display = 'none';
@@ -260,41 +256,26 @@
       document.getElementById('resumen-final').innerText = resumenTexto;
     }
 
-    // ENVÍO DE NOTIFICACIÓN DIRECTA A TU CHAT DE TELEGRAM
-    async function enviarNotificacionTelegram() {
+    // ENVÍO DE REPORTE DIRECTO AL CHAT DEL VENDEDOR
+    function enviarReporteTelegram() {
       let ref = document.getElementById('referencia').value;
       if (!ref) {
         alert('Por favor ingresa un número de referencia');
         return;
       }
 
-      let usuario = (tg.initDataUnsafe && tg.initDataUnsafe.user) 
-        ? `@${tg.initDataUnsafe.user.username || tg.initDataUnsafe.user.first_name}` 
-        : 'Cliente';
+      // Texto que se enviará automáticamente al bot
+      let textoMensaje = `Hola, acabo de realizar un pago:\n\n` +
+                         `🛍️ Pedido: ${resumenTexto}\n` +
+                         `💳 Referencia: ${ref}\n\n` +
+                         `Por favor verificar mi pago.`;
 
-      let textoNotificacion = `🔔 *NUEVO REPORTE DE PAGO*\n\n` +
-                               `👤 *Cliente:* ${usuario}\n` +
-                               `🛍️ *Pedido:* ${resumenTexto}\n` +
-                               `💳 *Referencia:* \`${ref}\`\n\n` +
-                               `⚠️ *Verificar acreditación en cuenta.*`;
+      // Enlace universal de Telegram para abrir el bot con el mensaje preescrito
+      // (Reemplaza 'MipgoVIP_bot' si usas el usuario de tu bot real)
+      let urlTelegram = `https://t.me/MipgoVIP_bot?text=${encodeURIComponent(textoMensaje)}`;
 
-      try {
-        let url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
-        await fetch(url, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            chat_id: CHAT_ID,
-            text: textoNotificacion,
-            parse_mode: 'Markdown'
-          })
-        });
-
-        alert('✅ ¡Reporte de Pago Enviado Exitosamente!');
-        tg.close();
-      } catch (e) {
-        alert('Ocurrió un error al enviar el reporte. Revisa la conexión.');
-      }
+      tg.close();
+      window.open(urlTelegram, '_blank');
     }
   </script>
 

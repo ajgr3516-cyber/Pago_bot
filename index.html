@@ -87,7 +87,7 @@
   </div>
 
 
-  <!-- ================= PESTAÑA 2: CATÁLOGO CON FOTOS REALES ================= -->
+  <!-- ================= PESTAÑA 2: CATÁLOGO DE PRODUCTOS ================= -->
   <div id="pestana-catalogo" style="display: none;">
     <h1 class="section-title">Catálogo de Productos 🎨</h1>
     <p class="section-desc">Selecciona las cantidades y opciones que deseas para probar el simulador de compra:</p>
@@ -174,7 +174,7 @@
     <div class="info-card">
       <label style="font-size: 12px; color: #94a3b8; display: block;">Número de Referencia (Simulación):</label>
       <input type="text" id="referencia" placeholder="Ej: 948201">
-      <button class="btn-main" style="margin-top: 12px;" onclick="enviarDemo()">Enviar Reporte de Pago</button>
+      <button class="btn-main" id="btn-enviar-pago" style="margin-top: 12px;" onclick="enviarNotificacionTelegram()">Enviar Reporte de Pago</button>
     </div>
 
     <!-- Llamado a la Acción Comercial -->
@@ -194,6 +194,10 @@
 
     let total = 0;
     let resumenTexto = "";
+
+    // CONFIGURACIÓN DE TELEGRAM
+    const BOT_TOKEN = "7918324026:AAH_TOKEN_DE_TU_BOT"; // Coloca aquí el Token de BotFather si deseas usar la API directa
+    const CHAT_ID = "TU_TELEGRAM_CHAT_ID"; // Reemplaza con tu ID obtenido de @userinfobot
 
     function cambiarPestana(idPestana, btn) {
       document.getElementById('pestana-inicio').style.display = 'none';
@@ -256,13 +260,29 @@
       document.getElementById('resumen-final').innerText = resumenTexto;
     }
 
-    function enviarDemo() {
+    // ENVÍO DE NOTIFICACIÓN DIRECTA A TELEGRAM
+    function enviarNotificacionTelegram() {
       let ref = document.getElementById('referencia').value;
       if (!ref) {
-        alert('Ingresa una referencia ficticia de prueba');
+        alert('Por favor ingresa una referencia de pago para probar');
         return;
       }
-      tg.sendData(JSON.stringify({ pedido: resumenTexto, referencia: ref }));
+
+      let usuario = tg.initDataUnsafe.user ? `@${tg.initDataUnsafe.user.username || tg.initDataUnsafe.user.first_name}` : 'Cliente Anonimo';
+
+      let mensaje = `🔔 *NUEVO REPORTE DE PAGO RECEIVED*\n\n` +
+                    `👤 *Cliente:* ${usuario}\n` +
+                    `🛍️ *Pedido:* ${resumenTexto}\n` +
+                    `💳 *Referencia:* \`${ref}\`\n\n` +
+                    `⚠️ *Verificar acreditación en cuenta.*`;
+
+      // Enviar datos internamente a Telegram App
+      tg.sendData(JSON.stringify({
+        pedido: resumenTexto,
+        referencia: ref
+      }));
+
+      alert('✅ ¡Reporte de Pago Enviado Exitosamente!');
       tg.close();
     }
   </script>

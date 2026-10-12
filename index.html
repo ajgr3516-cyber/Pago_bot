@@ -3,292 +3,116 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>El Rincón del Trader VIP</title>
+  <title>Sublimación - Pedidos Express</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
-    * { 
-      box-sizing: border-box; 
-      margin: 0; 
-      padding: 0; 
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
-    }
-    body { 
-      background-color: #0f172a; 
-      color: #f8fafc; 
-      display: flex; 
-      justify-content: center; 
-      padding: 16px; 
-      min-height: 100vh; 
-    }
-    .container { 
-      width: 100%; 
-      max-width: 420px; 
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+    body { background-color: #0f172a; color: #f8fafc; display: flex; justify-content: center; padding: 16px; min-height: 100vh; }
+    .container { width: 100%; max-width: 420px; }
     
-    /* Targeta Principal / Presentación VIP */
-    .card { 
-      background: #1e293b; 
-      border-radius: 20px; 
-      padding: 24px; 
-      border: 1px solid #334155; 
-      box-shadow: 0 10px 25px rgba(0,0,0,0.5); 
-      margin-bottom: 16px; 
-    }
-    .badge { 
-      background: linear-gradient(135deg, #10b981, #059669); 
-      color: #fff; 
-      font-size: 11px; 
-      font-weight: 800; 
-      padding: 6px 12px; 
-      border-radius: 20px; 
-      text-transform: uppercase; 
-      letter-spacing: 0.5px;
-      display: inline-block; 
-      margin-bottom: 14px; 
-    }
-    .title { 
-      font-size: 24px; 
-      font-weight: 800; 
-      color: #fff; 
-      margin-bottom: 8px; 
-      line-height: 1.2;
-    }
-    .subtitle {
-      color: #38bdf8;
-      font-size: 14px;
-      font-weight: 600;
-      margin-bottom: 12px;
-    }
-    .description { 
-      font-size: 14px; 
-      color: #94a3b8; 
-      line-height: 1.5; 
-      margin-bottom: 20px; 
-    }
+    .card { background: #1e293b; border-radius: 16px; padding: 20px; border: 1px solid #334155; box-shadow: 0 10px 25px rgba(0,0,0,0.5); margin-bottom: 16px; }
+    .badge { background: linear-gradient(135deg, #0284c7, #0369a1); color: #fff; font-size: 11px; font-weight: bold; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; display: inline-block; margin-bottom: 12px; }
+    .title { font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 8px; }
+    .description { font-size: 13px; color: #94a3b8; line-height: 1.4; margin-bottom: 16px; }
     
-    .benefits-title {
-      font-size: 13px;
-      text-transform: uppercase;
-      color: #64748b;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      margin-bottom: 12px;
-    }
-
-    .benefits { 
-      list-style: none; 
-      margin-bottom: 24px; 
-    }
-    .benefits li { 
-      font-size: 14px; 
-      color: #cbd5e1; 
-      margin-bottom: 12px; 
-      display: flex; 
-      align-items: flex-start; 
-      gap: 10px; 
-      line-height: 1.4;
-    }
-    .benefits li span {
-      font-size: 16px;
-    }
+    /* Selector de Tallas */
+    .section-label { font-size: 12px; font-weight: 700; color: #38bdf8; text-transform: uppercase; margin-bottom: 8px; display: block; }
+    .size-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
     
-    .price-tag { 
-      background: #0f172a; 
-      border-radius: 14px; 
-      padding: 16px; 
-      text-align: center; 
-      border: 1px solid #334155; 
-      margin-bottom: 20px; 
-    }
-    .price-label { 
-      font-size: 12px; 
-      color: #94a3b8; 
-      text-transform: uppercase; 
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-    .price-value { 
-      font-size: 32px; 
-      font-weight: 800; 
-      color: #10b981; 
-    }
-    .price-sub {
-      font-size: 11px;
-      color: #64748b;
-      margin-top: 2px;
-    }
+    .size-btn { background: #0f172a; border: 2px solid #334155; color: #cbd5e1; border-radius: 10px; padding: 10px; text-align: center; cursor: pointer; transition: all 0.2s; }
+    .size-btn.active { border-color: #38bdf8; background: #0369a122; color: #fff; }
+    .size-name { font-weight: bold; font-size: 14px; }
+    .size-price { font-size: 11px; color: #94a3b8; margin-top: 2px; }
     
-    /* Botones */
-    .btn-primary { 
-      width: 100%; 
-      background: linear-gradient(135deg, #10b981, #059669); 
-      color: #ffffff; 
-      font-weight: 800; 
-      font-size: 16px; 
-      border: none; 
-      padding: 16px; 
-      border-radius: 14px; 
-      cursor: pointer; 
-      transition: all 0.2s; 
-      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
-    }
-    .btn-primary:active { 
-      transform: scale(0.98); 
-      opacity: 0.9; 
-    Pago */
-    .payment-option { 
-      background: #0f172a; 
-      border: 1px solid #334155; 
-      border-radius: 12px; 
-      padding: 14px; 
-      margin-bottom: 12px; }
-    .btn-secondary { 
-      background: transparent; 
-      color: #94a3b8; 
-      border: 1px solid #334155; 
-      padding: 8px 14px; 
-      border-radius: 10px; 
-      font-size: 12px; 
-      font-weight: 600;
-      cursor: pointer; 
-      margin-bottom: 20px; 
-    }
+    .price-tag { background: #0f172a; border-radius: 12px; padding: 12px; text-align: center; border: 1px solid #334155; margin-bottom: 20px; }
+    .price-label { font-size: 11px; color: #94a3b8; text-transform: uppercase; }
+    .price-value { font-size: 26px; font-weight: 800; color: #38bdf8; }
     
-    /* Estilos Pasarela de 
-      cursor: pointer; 
-      display: flex; 
-      justify-content: space-between; 
-      align-items: center; 
-      transition: all 0.2s;
-    }
-    .payment-option.active { 
-      border-color: #10b981; 
-      background: rgba(16, 185, 129, 0.08); 
-    }
-    .payment-title { 
-      font-weight: 700; 
-      font-size: 15px; 
-    }
-    .payment-sub { 
-      font-size: 12px; 
-      color: #94a3b8; 
-    }
+    .btn-primary { width: 100%; background: #0284c7; color: #fff; font-weight: 700; font-size: 15px; border: none; padding: 14px; border-radius: 12px; cursor: pointer; }
+    .btn-secondary { background: transparent; color: #94a3b8; border: 1px solid #334155; padding: 6px 12px; border-radius: 8px; font-size: 12px; cursor: pointer; margin-bottom: 16px; }
     
-    .instruction-box { 
-      background: #0f172a; 
-      border-radius: 12px; 
-      padding: 14px; 
-      border: 1px dashed #334155; 
-      margin-top: 16px; 
-      font-size: 13px; 
-      color: #cbd5e1; 
-      line-height: 1.6;
-    }
-    .wallet-code { 
-      background: #1e293b; 
-      padding: 10px; 
-      border-radius: 8px; 
-      font-family: monospace; 
-      font-size: 11px; 
-      word-break: break-all; 
-      margin-top: 8px; 
-      color: #38bdf8; 
-      border: 1px solid #334155; 
-    }
+    /* Pasarela */
+    .payment-option { background: #0f172a; border: 1px solid #334155; border-radius: 12px; padding: 12px; margin-bottom: 10px; cursor: pointer; }
+    .payment-option.active { border-color: #0284c7; background: #0369a122; }
+    .instruction-box { background: #0f172a; border-radius: 12px; padding: 12px; border: 1px dashed #334155; margin-top: 12px; font-size: 12px; color: #cbd5e1; }
+    .wallet-code { background: #1e293b; padding: 8px; border-radius: 6px; font-family: monospace; font-size: 11px; word-break: break-all; margin-top: 6px; color: #38bdf8; }
     
-    input { 
-      width: 100%; 
-      background: #0f172a; 
-      border: 1px solid #334155; 
-      color: #fff; 
-      padding: 12px; 
-      border-radius: 10px; 
-      margin-top: 6px; 
-      font-size: 14px; 
-      outline: none;
-    }
-    input:focus {
-      border-color: #10b981;
-    }
+    input { width: 100%; background: #0f172a; border: 1px solid #334155; color: #fff; padding: 10px; border-radius: 8px; margin-top: 6px; font-size: 13px; }
   </style>
 </head>
 <body>
 
 <div class="container">
 
-  <!-- ================= PANTALLA 1: PRESENTACIÓN VIP ================= -->
-  <div id="pantalla-catalogo" class="card">
-    <span class="badge">🔥 Acceso Vitalicio</span>
-    <h1 class="title">Canal VIP de Trading</h1>
-    <div class="subtitle">El Rincón del Trader</div>
-    <p class="description">Únete a nuestra comunidad privada de señales de alta precisión y análisis técnico en tiempo real.</p>
+  <!-- ================= PANTALLA 1: PRODUCTO Y TALLAS ================= -->
+  <div id="pantalla-producto" class="card">
+    <span class="badge">Personalización Premium</span>
+    <h1 class="title">Franela Sublimada 🎨</h1>
+    <p class="description">Sublimación en tela microperforada o muselina de alta calidad. Diseño 100% personalizado.</p>
     
-    <div class="benefits-title">¿Qué incluye tu acceso?</div>
-    <ul class="benefits">
-      <li><span>🎯</span> <strong>Señales Diarias:</strong> Entradas en Gold (XAUUSD) y US30 con Stop Loss y Take Profit.</li>
-      <li><span>📊</span> <strong>Estrategia Clara:</strong> Análisis basados en Price Action y Smart Money Concepts (SMC).</li>
-      <li><span>🛡️</span> <strong>Gestión de Riesgo:</strong> Reglas claras de lotaje y preservación de capital.</li>
-      <li><span>⚡</span> <strong>Acceso Inmediato:</strong> Pago único sin mensualidades ni cobros recurrentes.</li>
-    </ul>
-
-    <div class="price-tag">
-      <div class="price-label">Membresía Completa</div>
-      <div class="price-value">$25 USD</div>
-      <div class="price-sub">Pago único • Acceso de por vida</div>
+    <span class="section-label">Selecciona la Talla:</span>
+    <div class="size-grid">
+      <div class="size-btn active" id="btn-nino" onclick="seleccionarTalla('Niño (4 a 14)', 6, 'btn-nino')">
+        <div class="size-name">Niño</div>
+        <div class="size-price">$6.00</div>
+      </div>
+      <div class="size-btn" id="btn-sml" onclick="seleccionarTalla('S / M / L', 8, 'btn-sml')">
+        <div class="size-name">S / M / L</div>
+        <div class="size-price">$8.00</div>
+      </div>
+      <div class="size-btn" id="btn-xl" onclick="seleccionarTalla('XL / XXL', 10, 'btn-xl')">
+        <div class="size-name">XL / XXL</div>
+        <div class="size-price">$10.00</div>
+      </div>
     </div>
 
-    <button class="btn-primary" onclick="irAPagar()">OBTENER ACCESO VIP ➔</button>
+    <div class="price-tag">
+      <div class="price-label">Total a Pagar (<span id="txt-talla">Niño (4 a 14)</span>)</div>
+      <div class="price-value" id="txt-precio">$6.00 USD</div>
+    </div>
+
+    <button class="btn-primary" onclick="irAPagar()">PROCEDER AL PAGO ➔</button>
   </div>
 
 
   <!-- ================= PANTALLA 2: PASARELA DE PAGO ================= -->
   <div id="pantalla-pago" class="card" style="display: none;">
-    <button class="btn-secondary" onclick="volverAlCatalogo()">⬅️ Volver a información</button>
+    <button class="btn-secondary" onclick="volverAlProducto()">⬅️ Cambiar Talla</button>
     
-    <h2 class="title" style="font-size: 18px; margin-bottom: 16px;">Selecciona tu Método de Pago</h2>
+    <h2 class="title" style="font-size: 16px; margin-bottom: 12px;">Metodología de Pago</h2>
 
-    <!-- Opción USDT -->
-    <div class="payment-option active" id="opt-usdt" onclick="seleccionarMetodo('usdt')">
-      <div>
-        <div class="payment-title">🟡 USDT (Binance / Cripto)</div>
-        <div class="payment-sub">Red TRC20 / Binance Pay</div>
-      </div>
+    <div class="payment-option active" id="opt-pm" onclick="seleccionarMetodo('pm')">
+      <div style="font-weight: 600; font-size: 14px;">📱 Pago Móvil (Bs.)</div>
+      <div style="font-size: 11px; color: #94a3b8;">Tasa Oficial del Día</div>
     </div>
 
-    <!-- Opción Pago Móvil -->
-    <div class="payment-option" id="opt-pm" onclick="seleccionarMetodo('pm')">
-      <div>
-        <div class="payment-title">📱 Pago Móvil Nacional</div>
-        <div class="payment-sub">Bs. a Tasa Oficial</div>
-      </div>
+    <div class="payment-option" id="opt-usdt" onclick="seleccionarMetodo('usdt')">
+      <div style="font-weight: 600; font-size: 14px;">🟡 USDT (Binance Pay)</div>
+      <div style="font-size: 11px; color: #94a3b8;">Red TRC20 / Pay ID</div>
     </div>
 
-    <!-- Datos USDT -->
-    <div id="info-usdt" class="instruction-box">
-      <strong>Instrucciones USDT:</strong><br>
-      Envía el monto exacto (<strong>$25 USD</strong>) a la siguiente wallet:
+    <div id="info-pm" class="instruction-box">
+      <strong>Datos Pago Móvil:</strong><br>
+      • Banco: Banesco (0134)<br>
+      • Teléfono: 0412-1234567<br>
+      • Cédula: V-12345678<br>
+      • Monto: En Bs. según tasa oficial
+    </div>
+
+    <div id="info-usdt" class="instruction-box" style="display: none;">
+      <strong>Dirección Binance USDT:</strong>
       <div class="wallet-code">TAq5FszyfVkzsHXCwDtWPpissTM7TXhiD</div>
     </div>
 
-    <!-- Datos Pago Móvil -->
-    <div id="info-pm" class="instruction-box" style="display: none;">
-      <strong>Instrucciones Pago Móvil:</strong><br>
-      • <strong>Banco:</strong> Banesco (0134)<br>
-      • <strong>Teléfono:</strong> 0412-1234567<br>
-      • <strong>Cédula:</strong> V-12345678<br>
-      • <strong>Monto:</strong> Equivalente a $25 a tasa BCV oficial
+    <div style="margin-top: 14px;">
+      <label style="font-size: 11px; color: #94a3b8;">Resumen del Pedido:</label>
+      <input type="text" id="resumen-pedido" value="Franela Sublimada - Talla Niño ($6.00 USD)" readonly style="color: #38bdf8; font-weight: bold;">
+
+      <label style="font-size: 11px; color: #94a3b8; margin-top: 8px; display: block;">Número de Referencia de Pago:</label>
+      <input type="text" id="referencia" placeholder="Ej: 948201">
     </div>
 
-    <!-- Formulario -->
-    <div style="margin-top: 20px;">
-      <label style="font-size: 12px; color: #94a3b8; font-weight: 600;">Monto a Pagar ($USD):</label>
-      <input type="text" id="monto" value="25" readonly style="color: #10b981; font-weight: bold; background: #0b1329;">
-
-      <label style="font-size: 12px; color: #94a3b8; font-weight: 600; margin-top: 12px; display: block;">Número de Referencia:</label>
-      <input type="text" id="referencia" placeholder="Ej: 84920194">
-    </div>
-
-    <button class="btn-primary" style="margin-top: 24px;" onclick="reportarPago()">REPORTAR PAGO REALIZADO</button>
+    <button class="btn-primary" style="margin-top: 16px;" onclick="reportarPago()">Enviar Comprobante</button>
   </div>
 
 </div>
@@ -297,40 +121,58 @@
   let tg = window.Telegram.WebApp;
   tg.expand();
 
+  let tallaSeleccionada = "Niño (4 a 14)";
+  let precioActual = 6;
+
+  function seleccionarTalla(talla, precio, btnId) {
+    tallaSeleccionada = talla;
+    precioActual = precio;
+
+    // Actualiza botones activos
+    document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(btnId).classList.add('active');
+
+    // Actualiza textos
+    document.getElementById('txt-talla').innerText = talla;
+    document.getElementById('txt-precio').innerText = `$${precio}.00 USD`;
+    document.getElementById('resumen-pedido').value = `Franela Sublimada - ${talla} ($${precio}.00 USD)`;
+  }
+
   function irAPagar() {
-    document.getElementById('pantalla-catalogo').style.display = 'none';
+    document.getElementById('pantalla-producto').style.display = 'none';
     document.getElementById('pantalla-pago').style.display = 'block';
   }
 
-  function volverAlCatalogo() {
+  function volverAlProducto() {
     document.getElementById('pantalla-pago').style.display = 'none';
-    document.getElementById('pantalla-catalogo').style.display = 'block';
+    document.getElementById('pantalla-producto').style.display = 'block';
   }
 
   function seleccionarMetodo(metodo) {
-    if (metodo === 'usdt') {
-      document.getElementById('opt-usdt').classList.add('active');
-      document.getElementById('opt-pm').classList.remove('active');
-      document.getElementById('info-usdt').style.display = 'block';
-      document.getElementById('info-pm').style.display = 'none';
-    } else {
+    if (metodo === 'pm') {
       document.getElementById('opt-pm').classList.add('active');
       document.getElementById('opt-usdt').classList.remove('active');
       document.getElementById('info-pm').style.display = 'block';
       document.getElementById('info-usdt').style.display = 'none';
+    } else {
+      document.getElementById('opt-usdt').classList.add('active');
+      document.getElementById('opt-pm').classList.remove('active');
+      document.getElementById('info-usdt').style.display = 'block';
+      document.getElementById('info-pm').style.display = 'none';
     }
   }
 
   function reportarPago() {
     let ref = document.getElementById('referencia').value;
-    if (!ref.trim()) {
-      alert('Por favor ingresa el número de referencia del pago.');
+    if (!ref) {
+      alert('Por favor ingresa la referencia de pago');
       return;
     }
     
     tg.sendData(JSON.stringify({
-      producto: "Membresía VIP Trading",
-      monto: "25",
+      producto: "Franela Sublimada",
+      talla: tallaSeleccionada,
+      monto: precioActual,
       referencia: ref
     }));
     

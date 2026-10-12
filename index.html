@@ -195,9 +195,8 @@
     let total = 0;
     let resumenTexto = "";
 
-    // CONFIGURACIÓN DE TELEGRAM
-    const BOT_TOKEN = "7918324026:AAH_TOKEN_DE_TU_BOT"; // Coloca aquí el Token de BotFather si deseas usar la API directa
-    const CHAT_ID = "TU_TELEGRAM_CHAT_ID"; // Reemplaza con tu ID obtenido de @userinfobot
+    // CONFIGURACIÓN DE TELEGRAM CON TU CHAT ID CONFIGURADO
+    const CHAT_ID = "6009706656";
 
     function cambiarPestana(idPestana, btn) {
       document.getElementById('pestana-inicio').style.display = 'none';
@@ -260,24 +259,17 @@
       document.getElementById('resumen-final').innerText = resumenTexto;
     }
 
-    // ENVÍO DE NOTIFICACIÓN DIRECTA A TELEGRAM
+    // ENVÍO DE DATOS
     function enviarNotificacionTelegram() {
       let ref = document.getElementById('referencia').value;
       if (!ref) {
-        alert('Por favor ingresa una referencia de pago para probar');
+        alert('Por favor ingresa una referencia de pago');
         return;
       }
 
-      let usuario = tg.initDataUnsafe.user ? `@${tg.initDataUnsafe.user.username || tg.initDataUnsafe.user.first_name}` : 'Cliente Anonimo';
-
-      let mensaje = `🔔 *NUEVO REPORTE DE PAGO RECEIVED*\n\n` +
-                    `👤 *Cliente:* ${usuario}\n` +
-                    `🛍️ *Pedido:* ${resumenTexto}\n` +
-                    `💳 *Referencia:* \`${ref}\`\n\n` +
-                    `⚠️ *Verificar acreditación en cuenta.*`;
-
-      // Enviar datos internamente a Telegram App
+      // Envía la información al bot mediante Telegram WebApp
       tg.sendData(JSON.stringify({
+        chat_id: CHAT_ID,
         pedido: resumenTexto,
         referencia: ref
       }));

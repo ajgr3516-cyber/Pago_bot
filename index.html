@@ -74,23 +74,17 @@
     </div>
 
     <div class="info-card">
-      <h3>💳 Pasarela Pago Móvil & USDT</h3>
-      <p>Configurada con los datos de tu banco y Binance para que los clientes envíen su comprobante en un toque.</p>
-    </div>
-
-    <div class="info-card" style="border-color: #22c55e; background: #064e3b22;">
-      <h3 style="color: #4ade80;">🏷️ Oferta de Instalación</h3>
-      <p>Obtén el montaje de tu propia Mini App personalizada por solo **$35.00 USD** (Entrega lista en 24 horas).</p>
+      <h3>💳 Pasarela de Pago & Pedidos</h3>
+      <p>Configurada para capturar los datos del pedido y enviarlos al instante al comerciante.</p>
     </div>
 
     <button class="btn-main" onclick="activarPestanaCatalogo()">VER CATÁLOGO DEMO ➔</button>
   </div>
 
-
   <!-- ================= PESTAÑA 2: CATÁLOGO DE PRODUCTOS ================= -->
   <div id="pestana-catalogo" style="display: none;">
     <h1 class="section-title">Catálogo de Productos 🎨</h1>
-    <p class="section-desc">Selecciona las cantidades y opciones que deseas para probar el simulador de compra:</p>
+    <p class="section-desc">Selecciona las cantidades y opciones que deseas para probar:</p>
 
     <!-- Producto 1: Franela Sublimada -->
     <div class="product-card">
@@ -98,14 +92,11 @@
       <div class="product-body">
         <div class="product-title">👕 Franela Sublimada / Uniforme</div>
         <div class="product-price" id="precio-franela">$8.00 USD</div>
-        <p class="product-desc">Sublimación de alta calidad para preescolar y educación física.</p>
-        
         <select id="sel-franela" onchange="actualizarPrecios()">
           <option value="8">Preescolar (Talla 6 y 8) - $8.00</option>
           <option value="12">Ed. Física (Talla 8 a 16) - $12.00</option>
           <option value="14">Ed. Física (Talla S y M) - $14.00</option>
         </select>
-
         <div class="qty-bar">
           <span style="color: #cbd5e1; font-weight: bold;">Cantidad:</span>
           <div>
@@ -121,10 +112,8 @@
     <div class="product-card">
       <img src="insignia.jpg" class="product-img" alt="Insignia Escolar" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop';">
       <div class="product-body">
-        <div class="product-title">🏷️ Insignia Escolar (Fe y Alegría / U.E. Caroní)</div>
+        <div class="product-title">🏷️ Insignia Escolar</div>
         <div class="product-price">$1.50 USD</div>
-        <p class="product-desc">Insignia estampada / sublimada de alta definición para uniformes escolares.</p>
-
         <div class="qty-bar">
           <span style="color: #cbd5e1; font-weight: bold;">Cantidad:</span>
           <div>
@@ -136,7 +125,6 @@
       </div>
     </div>
 
-    <!-- Resumen Flotante / Carrito -->
     <div class="cart-box">
       <div id="desglose-carrito" style="font-size: 13px; color: #94a3b8;">Selecciona productos arriba...</div>
       <div class="total-text">
@@ -145,14 +133,13 @@
       </div>
     </div>
 
-    <button class="btn-main" id="btn-ir-pago" onclick="activarPestanaPago()" disabled style="opacity: 0.5;">IR A LA PASARELA DE PAGO ➔</button>
+    <button class="btn-main" id="btn-ir-pago" onclick="activarPestanaPago()" disabled style="opacity: 0.5;">IR A REPORTAR PAGO ➔</button>
   </div>
 
-
-  <!-- ================= PESTAÑA 3: PASARELA DE PAGO & VENTA ================= -->
+  <!-- ================= PESTAÑA 3: PASARELA DE PAGO ================= -->
   <div id="pestana-pago" style="display: none;">
-    <h1 class="section-title">Pasarela de Pago 💳</h1>
-    <p class="section-desc">Así es como tu cliente realiza y reporta la compra:</p>
+    <h1 class="section-title">Finalizar Pedido 💳</h1>
+    <p class="section-desc">Ingresa tu número de referencia (sin gastar saldo real en pruebas):</p>
 
     <div class="cart-box">
       <strong style="color: #38bdf8; display: block; margin-bottom: 6px;">Resumen del Pedido:</strong>
@@ -160,31 +147,11 @@
     </div>
 
     <div class="info-card">
-      <h3>📱 Pago Móvil (Bs. Tasa Oficial)</h3>
-      <p>• <strong>Banco:</strong> Banco de Venezuela (0102)<br>
-         • <strong>Teléfono:</strong> 0424-9090289<br>
-         • <strong>Cédula:</strong> V-18451548</p>
-    </div>
-
-    <div class="info-card">
-      <h3>🟡 USDT (Binance Pay)</h3>
-      <p style="font-family: monospace; color: #38bdf8; word-break: break-all;">TAq5FszyfVkzsHXCwDtWPpissTM7TXhiD</p>
-    </div>
-
-    <div class="info-card">
-      <label style="font-size: 12px; color: #94a3b8; display: block;">Número de Referencia (Simulación):</label>
-      <input type="text" id="referencia" placeholder="Ej: 948201">
-      <button class="btn-main" id="btn-enviar-pago" style="margin-top: 12px;" onclick="enviarReporteTelegram()">Enviar Reporte de Pago</button>
-    </div>
-
-    <!-- Llamado a la Acción Comercial -->
-    <div class="info-card" style="border-color: #22c55e; background: #064e3b22; text-align: center; margin-top: 24px;">
-      <h3 style="color: #4ade80; justify-content: center;">🚀 ¿Quieres esta App para tu negocio?</h3>
-      <p style="font-size: 13px; margin-top: 6px;">Te la entregamos completamente lista con tus productos, imágenes y datos bancarios por solo **$35 USD**.</p>
-      
-      <a href="https://wa.me/584249090289?text=Hola,%20prob%C3%A9%20la%20Mini%20App%20demo%20y%20quiero%20instalar%20una%20para%20mi%20negocio" target="_blank" class="btn-wsp">
-        💬 Solicitar Mi Mini App por WhatsApp
-      </a>
+      <h3>📱 Datos de Pago Móvil / Referencia</h3>
+      <p>• <strong>Banco:</strong> B.V. (0102)<br>• <strong>Teléfono:</strong> 0424-9090289</p>
+      <label style="font-size: 12px; color: #94a3b8; display: block; margin-top: 10px;">Número de Referencia (Simulación):</label>
+      <input type="text" id="referencia" placeholder="Ej: 123456">
+      <button class="btn-wsp" style="margin-top: 14px;" onclick="enviarReporteWhatsApp()">📲 Enviar Pedido por WhatsApp</button>
     </div>
   </div>
 
@@ -199,9 +166,7 @@
       document.getElementById('pestana-inicio').style.display = 'none';
       document.getElementById('pestana-catalogo').style.display = 'none';
       document.getElementById('pestana-pago').style.display = 'none';
-
       document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-      
       document.getElementById(idPestana).style.display = 'block';
       if (btn) btn.classList.add('active');
       window.scrollTo(0, 0);
@@ -225,21 +190,16 @@
     function actualizarPrecios() {
       let cantFranela = parseInt(document.getElementById('cant-franela').innerText);
       let precioFranela = parseFloat(document.getElementById('sel-franela').value);
-      let selText = document.getElementById('sel-franela').options[document.getElementById('sel-franela').selectedIndex].text;
-      
-      document.getElementById('precio-franela').innerText = `$${precioFranela.toFixed(2)} USD`;
-
       let cantInsignia = parseInt(document.getElementById('cant-insignia').innerText);
       let precioInsignia = 1.50;
 
       total = (cantFranela * precioFranela) + (cantInsignia * precioInsignia);
 
       let desglose = [];
-      if (cantFranela > 0) desglose.push(`${cantFranela}x Franela (${selText.split('-')[0]})`);
-      if (cantInsignia > 0) desglose.push(`${cantInsignia}x Insignia Escolar`);
+      if (cantFranela > 0) desglose.push(`${cantFranela}x Franela`);
+      if (cantInsignia > 0) desglose.push(`${cantInsignia}x Insignia`);
 
       let btnPago = document.getElementById('btn-ir-pago');
-
       if (total > 0) {
         document.getElementById('desglose-carrito').innerText = desglose.join(" + ");
         resumenTexto = desglose.join(" + ") + ` = $${total.toFixed(2)} USD`;
@@ -251,33 +211,25 @@
         btnPago.disabled = true;
         btnPago.style.opacity = "0.5";
       }
-
       document.getElementById('total-cuenta').innerText = `$${total.toFixed(2)} USD`;
       document.getElementById('resumen-final').innerText = resumenTexto;
     }
 
-    // ENVÍO DE REPORTE DIRECTO AL CHAT DEL VENDEDOR
-    function enviarReporteTelegram() {
+    function enviarReporteWhatsApp() {
       let ref = document.getElementById('referencia').value;
       if (!ref) {
-        alert('Por favor ingresa un número de referencia');
+        alert('Por favor ingresa un número de referencia de prueba');
         return;
       }
 
-      // Texto que se enviará automáticamente al bot
-      let textoMensaje = `Hola, acabo de realizar un pago:\n\n` +
-                         `🛍️ Pedido: ${resumenTexto}\n` +
-                         `💳 Referencia: ${ref}\n\n` +
-                         `Por favor verificar mi pago.`;
+      let mensaje = `¡Hola! Acabo de hacer un pedido desde la Mini App:\n\n` +
+                    `🛍️ *Pedido:* ${resumenTexto}\n` +
+                    `💳 *Referencia:* ${ref}\n\n` +
+                    `Por favor verificar mi pago.`;
 
-      // Enlace universal de Telegram para abrir el bot con el mensaje preescrito
-      // (Reemplaza 'MipgoVIP_bot' si usas el usuario de tu bot real)
-      let urlTelegram = `https://t.me/MipgoVIP_bot?text=${encodeURIComponent(textoMensaje)}`;
-
-      tg.close();
-      window.open(urlTelegram, '_blank');
+      let urlWsp = `https://wa.me/584249090289?text=${encodeURIComponent(mensaje)}`;
+      window.open(urlWsp, '_blank');
     }
   </script>
-
 </body>
 </html>

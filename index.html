@@ -3,226 +3,362 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sublimado Antonio González - Catálogo</title>
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <title>Calculadora Digital de Costos y Margen - Obtén tu Acceso</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
-    body { background-color: #0b1329; color: #f8fafc; padding: 16px; padding-bottom: 90px; min-height: 100vh; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
 
-    /* Navegación Fija */
-    .nav-bar { display: flex; background: #1e293b; border-radius: 16px; padding: 6px; margin-bottom: 20px; border: 1px solid #334155; position: sticky; top: 10px; z-index: 100; box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
-    .nav-btn { flex: 1; padding: 12px 8px; border: none; background: transparent; color: #94a3b8; font-weight: 700; font-size: 14px; border-radius: 12px; cursor: pointer; transition: all 0.2s; text-align: center; }
-    .nav-btn.active { background: #0284c7; color: #ffffff; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.4); }
+    body {
+      background-color: #0b0a19;
+      color: #ffffff;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
 
-    /* Encabezados y Secciones */
-    .section-title { font-size: 24px; font-weight: 800; color: #ffffff; margin-bottom: 6px; }
-    .section-desc { font-size: 14px; color: #94a3b8; line-height: 1.5; margin-bottom: 20px; }
+    .container {
+      width: 100%;
+      max-width: 500px;
+    }
 
-    /* Tarjetas de Información */
-    .info-card { background: #1e293b; border-radius: 18px; padding: 20px; border: 1px solid #334155; margin-bottom: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
-    .info-card h3 { font-size: 18px; color: #38bdf8; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
-    .info-card p { font-size: 14px; color: #cbd5e1; line-height: 1.5; }
+    .card {
+      background-color: #0f132e;
+      border: 1.5px solid #00d2ff;
+      border-radius: 24px;
+      padding: 28px 22px;
+      box-shadow: 0 0 30px rgba(0, 210, 255, 0.15);
+      position: relative;
+    }
 
-    /* Tarjetas de Producto con Imagen Grande */
-    .product-card { background: #1e293b; border-radius: 20px; border: 1px solid #334155; overflow: hidden; margin-bottom: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
-    .product-img { width: 100%; height: 280px; object-fit: cover; background-color: #0f172a; display: block; }
-    .product-body { padding: 18px; }
-    .product-title { font-size: 19px; font-weight: 800; color: #ffffff; margin-bottom: 6px; }
-    .product-price { font-size: 22px; font-weight: 800; color: #38bdf8; margin-bottom: 10px; }
+    /* Paso Indicators */
+    .step-indicator {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
 
-    /* Selector de Opciones */
-    select { width: 100%; background: #0f172a; border: 1px solid #334155; color: #ffffff; padding: 12px; border-radius: 10px; font-size: 14px; margin-bottom: 14px; outline: none; }
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: #1f274d;
+      transition: all 0.3s ease;
+    }
 
-    /* Controles de Cantidad */
-    .qty-bar { display: flex; justify-content: space-between; align-items: center; background: #0f172a; padding: 10px 14px; border-radius: 12px; border: 1px solid #334155; }
-    .qty-btn { background: #0284c7; color: #ffffff; border: none; width: 36px; height: 36px; border-radius: 8px; font-weight: bold; font-size: 18px; cursor: pointer; }
-    .qty-val { font-size: 16px; font-weight: bold; }
+    .dot.active {
+      background-color: #00d2ff;
+      box-shadow: 0 0 10px #00d2ff;
+      width: 28px;
+      border-radius: 10px;
+    }
 
-    /* Botones de Acción */
-    .btn-main { width: 100%; background: #0284c7; color: #ffffff; font-weight: 800; font-size: 16px; border: none; padding: 16px; border-radius: 14px; cursor: pointer; margin-top: 10px; box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4); }
-    .btn-wsp { width: 100%; background: #22c55e; color: #ffffff; font-weight: 800; font-size: 16px; border: none; padding: 16px; border-radius: 14px; cursor: pointer; margin-top: 14px; text-decoration: none; display: block; text-align: center; box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4); }
+    h1 {
+      font-size: 1.4rem;
+      font-weight: 800;
+      text-align: center;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      background: linear-gradient(135deg, #ffffff 0%, #a0aec0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
 
-    /* Resumen de Pago */
-    .cart-box { background: #0f172a; border: 1px solid #0284c7; border-radius: 16px; padding: 18px; margin-bottom: 16px; }
-    .total-text { font-size: 22px; font-weight: 800; color: #38bdf8; display: flex; justify-content: space-between; border-top: 1px dashed #334155; padding-top: 12px; margin-top: 12px; }
-    input { width: 100%; background: #0f172a; border: 1px solid #334155; color: #fff; padding: 12px; border-radius: 10px; margin-top: 8px; font-size: 14px; }
+    .subtitle {
+      font-size: 0.88rem;
+      color: #a0aec0;
+      text-align: center;
+      margin-bottom: 22px;
+      line-height: 1.4;
+    }
+
+    /* Lista de Beneficios */
+    .feature-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .feature-item {
+      background-color: #16142e;
+      border: 1px solid #2b2752;
+      border-radius: 14px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.88rem;
+    }
+
+    .feature-icon {
+      font-size: 1.2rem;
+    }
+
+    /* Caja de Precio */
+    .price-box {
+      background: linear-gradient(180deg, #131a3a 0%, #0c1126 100%);
+      border: 1px dashed #00d2ff;
+      border-radius: 16px;
+      padding: 16px;
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .old-price {
+      text-decoration: line-through;
+      color: #ff4757;
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .current-price {
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: #2ed573;
+      margin: 4px 0;
+    }
+
+    .price-tag {
+      font-size: 0.75rem;
+      color: #00d2ff;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Botones principales */
+    .btn-action {
+      width: 100%;
+      background: linear-gradient(90deg, #00d2ff 0%, #0072ff 100%);
+      border: none;
+      border-radius: 14px;
+      padding: 16px;
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(0, 210, 255, 0.3);
+      transition: transform 0.2s;
+    }
+
+    .btn-action:active {
+      transform: scale(0.98);
+    }
+
+    .btn-whatsapp {
+      background: linear-gradient(90deg, #25d366 0%, #128c7e 100%);
+      box-shadow: 0 8px 20px rgba(37, 211, 102, 0.3);
+    }
+
+    /* Estilos del Paso 2 (Checkout) */
+    .hidden {
+      display: none;
+    }
+
+    .payment-methods {
+      background-color: #16142e;
+      border: 1px solid #2b2752;
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+
+    .payment-title {
+      font-size: 0.82rem;
+      color: #00d2ff;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      letter-spacing: 0.5px;
+    }
+
+    .payment-info {
+      font-size: 0.85rem;
+      color: #e2e8f0;
+      line-height: 1.6;
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.8rem;
+      color: #a0aec0;
+      margin-bottom: 6px;
+    }
+
+    input, select {
+      width: 100%;
+      background-color: #16142e;
+      border: 1px solid #2b2752;
+      border-radius: 12px;
+      padding: 12px 14px;
+      color: #ffffff;
+      font-size: 0.9rem;
+      outline: none;
+    }
+
+    input:focus, select:focus {
+      border-color: #00d2ff;
+    }
+
+    .btn-back {
+      background: none;
+      border: none;
+      color: #a0aec0;
+      font-size: 0.82rem;
+      cursor: pointer;
+      margin-bottom: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
   </style>
 </head>
 <body>
 
-  <!-- Navegación por Pestañas -->
-  <div class="nav-bar">
-    <button class="nav-btn active" onclick="cambiarPestana('pestana-inicio', this)">📱 Inicio</button>
-    <button class="nav-btn" onclick="cambiarPestana('pestana-catalogo', this)">🛍️ Catálogo</button>
-    <button class="nav-btn" onclick="cambiarPestana('pestana-pago', this)">💳 Pasarela</button>
-  </div>
+  <div class="container">
+    <div class="card">
+      
+      <!-- Indicadores de Paso -->
+      <div class="step-indicator">
+        <div class="dot active" id="dot1"></div>
+        <div class="dot" id="dot2"></div>
+      </div>
 
-  <!-- ================= PESTAÑA 1: INICIO Y SERVICIOS ================= -->
-  <div id="pestana-inicio">
-    <h1 class="section-title">Sublimado Antonio González 🚀</h1>
-    <p class="section-desc">Catálogo digital interactivo para uniformes escolares, insignias y artículos personalizados en Ciudad Guayana.</p>
+      <!-- PASO 1: INFORMACIÓN Y BENEFICIOS -->
+      <div id="step1">
+        <h1>CALCULADORA DIGITAL DE COSTOS</h1>
+        <p class="subtitle">Toma el control real de las ganancias de tu negocio y calcula el precio exacto por unidad en segundos.</p>
 
-    <div class="info-card">
-      <h3>🛍️ Catálogo con Fotografías</h3>
-      <p>Visualiza los productos reales con alta definición y selecciona tallas o cantidades al instante.</p>
-    </div>
-
-    <div class="info-card">
-      <h3>🧮 Calculadora Automática</h3>
-      <p>Suma total del pedido en tiempo real para agilizar las ventas por WhatsApp.</p>
-    </div>
-
-    <button class="btn-main" onclick="activarPestanaCatalogo()">VER CATÁLOGO ➔</button>
-  </div>
-
-  <!-- ================= PESTAÑA 2: CATÁLOGO DE PRODUCTOS ================= -->
-  <div id="pestana-catalogo" style="display: none;">
-    <h1 class="section-title">Catálogo de Productos 🎨</h1>
-    <p class="section-desc">Selecciona las cantidades y opciones que deseas:</p>
-
-    <!-- Producto 1: Franela Sublimada -->
-    <div class="product-card">
-      <img src="Franela.jpg" class="product-img" alt="Franela Sublimada">
-      <div class="product-body">
-        <div class="product-title">👕 Franela Sublimada / Uniforme U.E. Caroní</div>
-        <div class="product-price" id="precio-franela">$8.00 USD</div>
-        <select id="sel-franela" onchange="actualizarPrecios()">
-          <option value="8">Preescolar (Talla 6 y 8) - $8.00</option>
-          <option value="12">Ed. Física (Talla 8 a 16) - $12.00</option>
-          <option value="14">Ed. Física (Talla S y M) - $14.00</option>
-        </select>
-        <div class="qty-bar">
-          <span style="color: #cbd5e1; font-weight: bold;">Cantidad:</span>
-          <div>
-            <button class="qty-btn" onclick="cambiarCant('cant-franela', -1)">-</button>
-            <span class="qty-val" id="cant-franela" style="margin: 0 12px;">0</span>
-            <button class="qty-btn" onclick="cambiarCant('cant-franela', 1)">+</button>
+        <div class="feature-list">
+          <div class="feature-item">
+            <span class="feature-icon">📊</span>
+            <span>Subtotal automático de Materia Prima e Insumos ($).</span>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">🔍</span>
+            <span>Cálculo exacto del Costo Real por Unidad.</span>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">💡</span>
+            <span>Margen de Ganancia % y Precio de Venta recomendado.</span>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">💵</span>
+            <span>Ganancia Neta Total y retorno de inversión.</span>
           </div>
         </div>
-      </div>
-    </div>
 
-    <!-- Producto 2: Insignia Escolar -->
-    <div class="product-card">
-      <img src="Insiginia blanca.jpg" class="product-img" alt="Insignia Escolar">
-      <div class="product-body">
-        <div class="product-title">🏷️ Insignia Escolar Fe y Alegría</div>
-        <div class="product-price">$1.50 USD</div>
-        <div class="qty-bar">
-          <span style="color: #cbd5e1; font-weight: bold;">Cantidad:</span>
-          <div>
-            <button class="qty-btn" onclick="cambiarCant('cant-insignia', -1)">-</button>
-            <span class="qty-val" id="cant-insignia" style="margin: 0 12px;">0</span>
-            <button class="qty-btn" onclick="cambiarCant('cant-insignia', 1)">+</button>
+        <div class="price-box">
+          <div class="old-price">Precio Regular: $15.00 USD</div>
+          <div class="current-price">$ 5.00 USD</div>
+          <div class="price-tag">Acceso de por vida • Pago Único</div>
+        </div>
+
+        <button type="button" class="btn-action" onclick="goToStep(2)">
+          🛒 ¡QUIERO MI CALCULADORA AHORA!
+        </button>
+      </div>
+
+      <!-- PASO 2: PASARELA DE PAGO Y CONFIRMACIÓN -->
+      <div id="step2" class="hidden">
+        <button type="button" class="btn-back" onclick="goToStep(1)">← Volver a la información</button>
+        
+        <h1>DATOS DE PAGO Y REGISTRO</h1>
+        <p class="subtitle">Realiza tu pago e ingresa la referencia para enviarte el acceso a tu WhatsApp.</p>
+
+        <!-- Datos para realizar el pago -->
+        <div class="payment-methods">
+          <div class="payment-title">📌 Datos de Pago Disponibles</div>
+          <div class="payment-info">
+            <strong>• Pago Móvil:</strong> Banco (0102) • CI: 12.345.678 • Tel: 0414-0000000<br>
+            <strong>• Binance Pay ID:</strong> 123456789 (USDT)<br>
+            <strong>• Mapeo / Tasa:</strong> BCV del día
           </div>
         </div>
+
+        <!-- Formulario del comprador -->
+        <div class="form-group">
+          <label>Nombre y Apellido</label>
+          <input type="text" id="buyerName" placeholder="Tu nombre completo">
+        </div>
+
+        <div class="form-group">
+          <label>Número de WhatsApp</label>
+          <input type="tel" id="buyerPhone" placeholder="Ej: +584141234567">
+        </div>
+
+        <div class="form-group">
+          <label>Método de Pago Utilizado</label>
+          <select id="paymentMethod">
+            <option value="Pago Móvil">Pago Móvil</option>
+            <option value="Binance Pay (USDT)">Binance Pay (USDT)</option>
+            <option value="Otro">Otro Método</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Número de Referencia de Pago</label>
+          <input type="text" id="paymentRef" placeholder="Ej: 12345678">
+        </div>
+
+        <button type="button" class="btn-action btn-whatsapp" onclick="sendToWhatsApp()">
+          📲 CONFIRMAR PAGO POR WHATSAPP
+        </button>
       </div>
-    </div>
 
-    <div class="cart-box">
-      <div id="desglose-carrito" style="font-size: 13px; color: #94a3b8;">Selecciona productos arriba...</div>
-      <div class="total-text">
-        <span>TOTAL:</span>
-        <span id="total-cuenta">$0.00 USD</span>
-      </div>
-    </div>
-
-    <button class="btn-main" id="btn-ir-pago" onclick="activarPestanaPago()" disabled style="opacity: 0.5;">IR A REPORTAR PAGO ➔</button>
-  </div>
-
-  <!-- ================= PESTAÑA 3: PASARELA DE PAGO ================= -->
-  <div id="pestana-pago" style="display: none;">
-    <h1 class="section-title">Finalizar Pedido 💳</h1>
-    <p class="section-desc">Ingresa tu número de referencia de pago:</p>
-
-    <div class="cart-box">
-      <strong style="color: #38bdf8; display: block; margin-bottom: 6px;">Resumen del Pedido:</strong>
-      <div id="resumen-final" style="font-size: 14px; color: #ffffff; font-weight: bold;">Sin productos seleccionados</div>
-    </div>
-
-    <div class="info-card">
-      <h3>📱 Datos de Pago Móvil</h3>
-      <p>• <strong>Banco:</strong> B.V. (0102)<br>• <strong>Teléfono:</strong> 0424-9090289</p>
-      <label style="font-size: 12px; color: #94a3b8; display: block; margin-top: 10px;">Número de Referencia:</label>
-      <input type="text" id="referencia" placeholder="Ej: 123456">
-      <button class="btn-wsp" style="margin-top: 14px;" onclick="enviarReporteWhatsApp()">📲 Enviar Pedido por WhatsApp</button>
     </div>
   </div>
 
   <script>
-    let tg = window.Telegram.WebApp;
-    tg.expand();
+    // CONFIGURA AQUÍ TU NÚMERO DE WHATSAPP (Con código de país, ej: 584120000000)
+    const MY_WHATSAPP_NUMBER = "584120000000"; 
 
-    let total = 0;
-    let resumenTexto = "";
-
-    function cambiarPestana(idPestana, btn) {
-      document.getElementById('pestana-inicio').style.display = 'none';
-      document.getElementById('pestana-catalogo').style.display = 'none';
-      document.getElementById('pestana-pago').style.display = 'none';
-      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-      document.getElementById(idPestana).style.display = 'block';
-      if (btn) btn.classList.add('active');
-      window.scrollTo(0, 0);
-    }
-
-    function activarPestanaCatalogo() {
-      cambiarPestana('pestana-catalogo', document.querySelectorAll('.nav-btn')[1]);
-    }
-
-    function activarPestanaPago() {
-      cambiarPestana('pestana-pago', document.querySelectorAll('.nav-btn')[2]);
-    }
-
-    function cambiarCant(id, delta) {
-      let cantEl = document.getElementById(id);
-      let val = Math.max(0, parseInt(cantEl.innerText) + delta);
-      cantEl.innerText = val;
-      actualizarPrecios();
-    }
-
-    function actualizarPrecios() {
-      let cantFranela = parseInt(document.getElementById('cant-franela').innerText);
-      let precioFranela = parseFloat(document.getElementById('sel-franela').value);
-      let cantInsignia = parseInt(document.getElementById('cant-insignia').innerText);
-      let precioInsignia = 1.50;
-
-      total = (cantFranela * precioFranela) + (cantInsignia * precioInsignia);
-
-      let desglose = [];
-      if (cantFranela > 0) desglose.push(`${cantFranela}x Franela`);
-      if (cantInsignia > 0) desglose.push(`${cantInsignia}x Insignia`);
-
-      let btnPago = document.getElementById('btn-ir-pago');
-      if (total > 0) {
-        document.getElementById('desglose-carrito').innerText = desglose.join(" + ");
-        resumenTexto = desglose.join(" + ") + ` = $${total.toFixed(2)} USD`;
-        btnPago.disabled = false;
-        btnPago.style.opacity = "1";
+    function goToStep(stepNumber) {
+      if (stepNumber === 2) {
+        document.getElementById("step1").classList.add("hidden");
+        document.getElementById("step2").classList.remove("hidden");
+        document.getElementById("dot1").classList.remove("active");
+        document.getElementById("dot2").classList.add("active");
       } else {
-        document.getElementById('desglose-carrito').innerText = "Selecciona productos arriba...";
-        resumenTexto = "Sin productos seleccionados";
-        btnPago.disabled = true;
-        btnPago.style.opacity = "0.5";
+        document.getElementById("step2").classList.add("hidden");
+        document.getElementById("step1").classList.remove("hidden");
+        document.getElementById("dot2").classList.remove("active");
+        document.getElementById("dot1").classList.add("active");
       }
-      document.getElementById('total-cuenta').innerText = `$${total.toFixed(2)} USD`;
-      document.getElementById('resumen-final').innerText = resumenTexto;
     }
 
-    function enviarReporteWhatsApp() {
-      let ref = document.getElementById('referencia').value;
-      if (!ref) {
-        alert('Por favor ingresa un número de referencia');
+    function sendToWhatsApp() {
+      const name = document.getElementById("buyerName").value.trim();
+      const phone = document.getElementById("buyerPhone").value.trim();
+      const method = document.getElementById("paymentMethod").value;
+      const ref = document.getElementById("paymentRef").value.trim();
+
+      if (!name || !ref) {
+        alert("Por favor completa tu Nombre y el Número de Referencia del pago.");
         return;
       }
 
-      let mensaje = `¡Hola! Acabo de hacer un pedido desde la Mini App:\n\n` +
-                    `🛍️ *Pedido:* ${resumenTexto}\n` +
-                    `💳 *Referencia:* ${ref}\n\n` +
-                    `Por favor verificar mi pago.`;
+      const message = `¡Hola! 👋 Acabo de realizar el pago para adquirir la *Calculadora Digital de Costos y Margen*.\n\n` +
+                      `👤 *Nombre:* ${name}\n` +
+                      `📞 *WhatsApp:* ${phone || 'No especificado'}\n` +
+                      `💳 *Método de Pago:* ${method}\n` +
+                      `🧾 *N° de Referencia:* ${ref}\n\n` +
+                      `Quedo a la espera del enlace de acceso. ¡Muchas gracias!`;
 
-      let urlWsp = `https://wa.me/584249090289?text=${encodeURIComponent(mensaje)}`;
-      window.open(urlWsp, '_blank');
+      const whatsappUrl = `https://wa.me/${MY_WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+      window.open(whatsappUrl, "_blank");
     }
   </script>
 </body>

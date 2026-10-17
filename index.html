@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Calculadora Digital de Costos y Margen - Obtén tu Acceso</title>
+  <title>Calculadora Digital de Costos - Telegram App</title>
+  <!-- Script oficial de Telegram Web App -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
     * {
       box-sizing: border-box;
@@ -13,9 +15,9 @@
     }
 
     body {
-      background-color: #0b0a19;
-      color: #ffffff;
-      padding: 20px;
+      background-color: var(--tg-theme-bg-color, #0b0a19);
+      color: var(--tg-theme-text-color, #ffffff);
+      padding: 16px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -24,29 +26,28 @@
 
     .container {
       width: 100%;
-      max-width: 500px;
+      max-width: 440px;
     }
 
     .card {
       background-color: #0f132e;
       border: 1.5px solid #00d2ff;
-      border-radius: 24px;
-      padding: 28px 22px;
-      box-shadow: 0 0 30px rgba(0, 210, 255, 0.15);
-      position: relative;
+      border-radius: 20px;
+      padding: 22px;
+      box-shadow: 0 0 25px rgba(0, 210, 255, 0.15);
     }
 
-    /* Paso Indicators */
+    /* Indicador de Pasos */
     .step-indicator {
       display: flex;
       justify-content: center;
-      gap: 10px;
-      margin-bottom: 20px;
+      gap: 8px;
+      margin-bottom: 16px;
     }
 
     .dot {
-      width: 12px;
-      height: 12px;
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
       background-color: #1f274d;
       transition: all 0.3s ease;
@@ -54,111 +55,106 @@
 
     .dot.active {
       background-color: #00d2ff;
-      box-shadow: 0 0 10px #00d2ff;
-      width: 28px;
-      border-radius: 10px;
+      box-shadow: 0 0 8px #00d2ff;
+      width: 24px;
+      border-radius: 8px;
     }
 
     h1 {
-      font-size: 1.4rem;
+      font-size: 1.25rem;
       font-weight: 800;
       text-align: center;
       text-transform: uppercase;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       background: linear-gradient(135deg, #ffffff 0%, #a0aec0 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
     .subtitle {
-      font-size: 0.88rem;
+      font-size: 0.82rem;
       color: #a0aec0;
       text-align: center;
-      margin-bottom: 22px;
+      margin-bottom: 18px;
       line-height: 1.4;
     }
 
-    /* Lista de Beneficios */
+    /* Beneficios */
     .feature-list {
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      margin-bottom: 24px;
+      gap: 10px;
+      margin-bottom: 20px;
     }
 
     .feature-item {
       background-color: #16142e;
       border: 1px solid #2b2752;
-      border-radius: 14px;
-      padding: 12px 14px;
+      border-radius: 12px;
+      padding: 10px 12px;
       display: flex;
       align-items: center;
-      gap: 12px;
-      font-size: 0.88rem;
+      gap: 10px;
+      font-size: 0.82rem;
     }
 
     .feature-icon {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
     }
 
     /* Caja de Precio */
     .price-box {
       background: linear-gradient(180deg, #131a3a 0%, #0c1126 100%);
       border: 1px dashed #00d2ff;
-      border-radius: 16px;
-      padding: 16px;
+      border-radius: 14px;
+      padding: 14px;
       text-align: center;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
 
     .old-price {
       text-decoration: line-through;
       color: #ff4757;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       font-weight: 700;
     }
 
     .current-price {
-      font-size: 2.2rem;
+      font-size: 2rem;
       font-weight: 900;
       color: #2ed573;
-      margin: 4px 0;
+      margin: 2px 0;
     }
 
     .price-tag {
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       color: #00d2ff;
       text-transform: uppercase;
       letter-spacing: 1px;
     }
 
-    /* Botones principales */
+    /* Botones */
     .btn-action {
       width: 100%;
       background: linear-gradient(90deg, #00d2ff 0%, #0072ff 100%);
       border: none;
-      border-radius: 14px;
-      padding: 16px;
+      border-radius: 12px;
+      padding: 14px;
       color: #ffffff;
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.5px;
       cursor: pointer;
-      box-shadow: 0 8px 20px rgba(0, 210, 255, 0.3);
-      transition: transform 0.2s;
-    }
-
-    .btn-action:active {
-      transform: scale(0.98);
+      box-shadow: 0 6px 16px rgba(0, 210, 255, 0.3);
     }
 
     .btn-whatsapp {
       background: linear-gradient(90deg, #25d366 0%, #128c7e 100%);
-      box-shadow: 0 8px 20px rgba(37, 211, 102, 0.3);
+      box-shadow: 0 6px 16px rgba(37, 211, 102, 0.3);
     }
 
-    /* Estilos del Paso 2 (Checkout) */
+    /* Paso 2 (Checkout) */
     .hidden {
       display: none;
     }
@@ -166,45 +162,44 @@
     .payment-methods {
       background-color: #16142e;
       border: 1px solid #2b2752;
-      border-radius: 16px;
-      padding: 16px;
-      margin-bottom: 20px;
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 16px;
     }
 
     .payment-title {
-      font-size: 0.82rem;
+      font-size: 0.78rem;
       color: #00d2ff;
       font-weight: 700;
       text-transform: uppercase;
-      margin-bottom: 10px;
-      letter-spacing: 0.5px;
+      margin-bottom: 8px;
     }
 
     .payment-info {
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       color: #e2e8f0;
       line-height: 1.6;
     }
 
     .form-group {
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
 
     label {
       display: block;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       color: #a0aec0;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
 
     input, select {
       width: 100%;
       background-color: #16142e;
       border: 1px solid #2b2752;
-      border-radius: 12px;
-      padding: 12px 14px;
+      border-radius: 10px;
+      padding: 10px 12px;
       color: #ffffff;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       outline: none;
     }
 
@@ -216,9 +211,9 @@
       background: none;
       border: none;
       color: #a0aec0;
-      font-size: 0.82rem;
+      font-size: 0.78rem;
       cursor: pointer;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
       display: inline-flex;
       align-items: center;
       gap: 4px;
@@ -238,79 +233,69 @@
 
       <!-- PASO 1: INFORMACIÓN Y BENEFICIOS -->
       <div id="step1">
-        <h1>CALCULADORA DIGITAL DE COSTOS</h1>
-        <p class="subtitle">Toma el control real de las ganancias de tu negocio y calcula el precio exacto por unidad en segundos.</p>
+        <h1>Calculadora de Costos Pro</h1>
+        <p class="subtitle">Automatiza los precios de tus productos, controla tu materia prima y asegura tus ganancias.</p>
 
         <div class="feature-list">
           <div class="feature-item">
             <span class="feature-icon">📊</span>
-            <span>Subtotal automático de Materia Prima e Insumos ($).</span>
+            <span>Cálculo automático de insumos en dólares ($).</span>
           </div>
           <div class="feature-item">
             <span class="feature-icon">🔍</span>
-            <span>Cálculo exacto del Costo Real por Unidad.</span>
+            <span>Costo real exacto por cada unidad producida.</span>
           </div>
           <div class="feature-item">
             <span class="feature-icon">💡</span>
-            <span>Margen de Ganancia % y Precio de Venta recomendado.</span>
+            <span>Precio de venta sugerido según tu % de ganancia.</span>
           </div>
           <div class="feature-item">
             <span class="feature-icon">💵</span>
-            <span>Ganancia Neta Total y retorno de inversión.</span>
+            <span>Ganancia neta total y margen real del lote.</span>
           </div>
         </div>
 
         <div class="price-box">
-          <div class="old-price">Precio Regular: $15.00 USD</div>
-          <div class="current-price">$ 5.00 USD</div>
-          <div class="price-tag">Acceso de por vida • Pago Único</div>
+          <div class="old-price">Pago Móvil Nacional</div>
+          <div class="current-price">Acceso Inmediato</div>
+          <div class="price-tag">Pago Único • Sin Complicaciones</div>
         </div>
 
         <button type="button" class="btn-action" onclick="goToStep(2)">
-          🛒 ¡QUIERO MI CALCULADORA AHORA!
+          🛒 ¡QUIERO ADQUIRIRLA!
         </button>
       </div>
 
-      <!-- PASO 2: PASARELA DE PAGO Y CONFIRMACIÓN -->
+      <!-- PASO 2: PASARELA DE PAGO Y WHATSAPP -->
       <div id="step2" class="hidden">
         <button type="button" class="btn-back" onclick="goToStep(1)">← Volver a la información</button>
         
-        <h1>DATOS DE PAGO Y REGISTRO</h1>
-        <p class="subtitle">Realiza tu pago e ingresa la referencia para enviarte el acceso a tu WhatsApp.</p>
+        <h1>Datos de Pago Móvil</h1>
+        <p class="subtitle">Realiza tu pago e ingresa la referencia para recibir tu acceso inmediato.</p>
 
-        <!-- Datos para realizar el pago -->
         <div class="payment-methods">
-          <div class="payment-title">📌 Datos de Pago Disponibles</div>
+          <div class="payment-title">🇻🇪 Datos Bancarios (Banco de Venezuela)</div>
           <div class="payment-info">
-            <strong>• Pago Móvil:</strong> Banco (0102) • CI: 12.345.678 • Tel: 0414-0000000<br>
-            <strong>• Binance Pay ID:</strong> 123456789 (USDT)<br>
-            <strong>• Mapeo / Tasa:</strong> BCV del día
+            • <strong>Banco:</strong> 0102 - Banco de Venezuela<br>
+            • <strong>Teléfono:</strong> 0424-9090289<br>
+            • <strong>Cédula:</strong> 18.451.548<br>
+            <span style="color: #00d2ff; font-size: 0.78rem;">* Consulta la tasa del día para realizar tu pago correspondiente.</span>
           </div>
         </div>
 
-        <!-- Formulario del comprador -->
         <div class="form-group">
           <label>Nombre y Apellido</label>
           <input type="text" id="buyerName" placeholder="Tu nombre completo">
         </div>
 
         <div class="form-group">
-          <label>Número de WhatsApp</label>
-          <input type="tel" id="buyerPhone" placeholder="Ej: +584141234567">
+          <label>Tu Teléfono / WhatsApp</label>
+          <input type="tel" id="buyerPhone" placeholder="Ej: 04141234567">
         </div>
 
         <div class="form-group">
-          <label>Método de Pago Utilizado</label>
-          <select id="paymentMethod">
-            <option value="Pago Móvil">Pago Móvil</option>
-            <option value="Binance Pay (USDT)">Binance Pay (USDT)</option>
-            <option value="Otro">Otro Método</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label>Número de Referencia de Pago</label>
-          <input type="text" id="paymentRef" placeholder="Ej: 12345678">
+          <label>Últimos 4 dígitos o Referencia de Pago</label>
+          <input type="text" id="paymentRef" placeholder="Ej: 5678">
         </div>
 
         <button type="button" class="btn-action btn-whatsapp" onclick="sendToWhatsApp()">
@@ -322,8 +307,12 @@
   </div>
 
   <script>
-    // CONFIGURA AQUÍ TU NÚMERO DE WHATSAPP (Con código de país, ej: 584120000000)
-    const MY_WHATSAPP_NUMBER = "584120000000"; 
+    // Inicializar Telegram WebApp si está abierto dentro de Telegram
+    let tg = window.Telegram.WebApp;
+    tg.expand();
+
+    // AQUÍ COLOCAS TU NÚMERO DE WHATSAPP PARA RECIBIR LOS PEDIDOS (Ej: 584249090289 o el que uses)
+    const MY_WHATSAPP_NUMBER = "584249090289"; 
 
     function goToStep(stepNumber) {
       if (stepNumber === 2) {
@@ -342,20 +331,19 @@
     function sendToWhatsApp() {
       const name = document.getElementById("buyerName").value.trim();
       const phone = document.getElementById("buyerPhone").value.trim();
-      const method = document.getElementById("paymentMethod").value;
       const ref = document.getElementById("paymentRef").value.trim();
 
       if (!name || !ref) {
-        alert("Por favor completa tu Nombre y el Número de Referencia del pago.");
+        alert("Por favor completa tu Nombre y la Referencia del Pago Móvil.");
         return;
       }
 
-      const message = `¡Hola! 👋 Acabo de realizar el pago para adquirir la *Calculadora Digital de Costos y Margen*.\n\n` +
+      const message = `¡Hola! 👋 Acabo de realizar un *Pago Móvil* para adquirir la Calculadora Digital de Costos.\n\n` +
                       `👤 *Nombre:* ${name}\n` +
                       `📞 *WhatsApp:* ${phone || 'No especificado'}\n` +
-                      `💳 *Método de Pago:* ${method}\n` +
-                      `🧾 *N° de Referencia:* ${ref}\n\n` +
-                      `Quedo a la espera del enlace de acceso. ¡Muchas gracias!`;
+                      `🏦 *Método:* Pago Móvil (Banco de Venezuela)\n` +
+                      `🧾 *Referencia:* ${ref}\n\n` +
+                      `Adjunto el comprobante. Quedo a la espera de mi acceso. ¡Gracias!`;
 
       const whatsappUrl = `https://wa.me/${MY_WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
       window.open(whatsappUrl, "_blank");
